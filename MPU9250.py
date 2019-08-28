@@ -546,7 +546,7 @@ class MPU9250:
 	# @see MPU9250_GCONFIG_FS_SEL_BIT
 	# @see MPU9250_GCONFIG_FS_SEL_LENGTH
 	def getFullScaleGyroRange(self):
-    	return self.__i2cWrapper.readBits(self.__devAddr, MPU9250_RA_GYRO_CONFIG, MPU9250_GCONFIG_FS_SEL_BIT, MPU9250_GCONFIG_FS_SEL_LENGTH);
+		return self.__i2cWrapper.readBits(self.__devAddr, MPU9250_RA_GYRO_CONFIG, MPU9250_GCONFIG_FS_SEL_BIT, MPU9250_GCONFIG_FS_SEL_LENGTH);
 
 	# Set full-scale gyroscope range.
 	# @param range New full-scale gyroscope range value
@@ -1420,180 +1420,180 @@ class MPU9250:
 
 	# special methods for MotionApps 4.1 implementation
 	#ifdef MPU9250_INCLUDE_DMP_MOTIONAPPS41
-    #def dmpInitialize(self):
-    #	pass
-    #def dmpPacketAvailable(self):
-    #	pass
+	#def dmpInitialize(self):
+	#	pass
+	#def dmpPacketAvailable(self):
+	#	pass
 
-    #def dmpSetFIFORate(self, fifoRate):
-    #	pass
-    #def dmpGetFIFORate(self):
-    #	pass
-    #def dmpGetSampleStepSizeMS(self):
-    #	pass
-    #def dmpGetSampleFrequency(self):
-    #	pass
-    #def dmpDecodeTemperature(self, tempReg):
-    #	pass
+	#def dmpSetFIFORate(self, fifoRate):
+	#	pass
+	#def dmpGetFIFORate(self):
+	#	pass
+	#def dmpGetSampleStepSizeMS(self):
+	#	pass
+	#def dmpGetSampleFrequency(self):
+	#	pass
+	#def dmpDecodeTemperature(self, tempReg):
+	#	pass
 
-    ## Register callbacks after a packet of FIFO data is processed
-    ##dmpRegisterFIFORateProcess(inv_obj_func func, priority):
-    #	pass
-    ##dmpUnregisterFIFORateProcess(inv_obj_func func):
-    #	pass
-    #def dmpRunFIFORateProcesses(self):
-    #	pass
+	## Register callbacks after a packet of FIFO data is processed
+	##dmpRegisterFIFORateProcess(inv_obj_func func, priority):
+	#	pass
+	##dmpUnregisterFIFORateProcess(inv_obj_func func):
+	#	pass
+	#def dmpRunFIFORateProcesses(self):
+	#	pass
 
-    ## Setup FIFO for various output
-    #def dmpSendQuaternion(self, accuracy):
-    #	pass
-    #def dmpSendGyro(self, elements, accuracy):
-    #	pass
-    #def dmpSendAccel(self, elements, accuracy):
-    #	pass
-    #def dmpSendLinearAccel(self, elements, accuracy):
-    #	pass
-    #def dmpSendLinearAccelInWorld(self, elements, accuracy):
-    #	pass
-    #def dmpSendControlData(self, elements, accuracy):
-    #	pass
-    #def dmpSendSensorData(self, elements, accuracy):
-    #	pass
-    #def dmpSendExternalSensorData(self, elements, accuracy):
-    #	pass
-    #def dmpSendGravity(self, elements, accuracy):
-    #	pass
-    #def dmpSendPacketNumber(self, accuracy):
-    #	pass
-    #def dmpSendQuantizedAccel(self, elements, accuracy):
-    #	pass
-    #def dmpSendEIS(self, elements, accuracy):
-    #	pass
+	## Setup FIFO for various output
+	#def dmpSendQuaternion(self, accuracy):
+	#	pass
+	#def dmpSendGyro(self, elements, accuracy):
+	#	pass
+	#def dmpSendAccel(self, elements, accuracy):
+	#	pass
+	#def dmpSendLinearAccel(self, elements, accuracy):
+	#	pass
+	#def dmpSendLinearAccelInWorld(self, elements, accuracy):
+	#	pass
+	#def dmpSendControlData(self, elements, accuracy):
+	#	pass
+	#def dmpSendSensorData(self, elements, accuracy):
+	#	pass
+	#def dmpSendExternalSensorData(self, elements, accuracy):
+	#	pass
+	#def dmpSendGravity(self, elements, accuracy):
+	#	pass
+	#def dmpSendPacketNumber(self, accuracy):
+	#	pass
+	#def dmpSendQuantizedAccel(self, elements, accuracy):
+	#	pass
+	#def dmpSendEIS(self, elements, accuracy):
+	#	pass
 
-    ## Get Fixed Point data from FIFO
-    #def dmpGetAccel(self, data, packet = 0):
-    #	pass
-    #def dmpGetAccel(self, data, packet = 0):
-    #	pass
-    #def dmpGetAccel(self, v, packet = 0):
-    #	pass
-    #def dmpGetQuaternion(self, data, packet = 0):
-    #	pass
-    #def dmpGetQuaternion(self, data, packet = 0):
-    #	pass
-    #def dmpGetQuaternion(self, q, packet = 0):
-    #	pass
-    #def dmpGet6AxisQuaternion(self, data, packet = 0):
-    #	pass
-    #def dmpGet6AxisQuaternion(self, data, packet = 0):
-    #	pass
-    #def dmpGet6AxisQuaternion(self, q, packet = 0):
-    #	pass
-    #def dmpGetRelativeQuaternion(self, data, packet = 0):
-    #	pass
-    #def dmpGetRelativeQuaternion(self, data, packet = 0):
-    #	pass
-    #def dmpGetRelativeQuaternion(self, data, packet = 0):
-    #	pass
-    #def dmpGetGyro(self, data, packet = 0):
-    #	pass
-    #def dmpGetGyro(self, data, packet = 0):
-    #	pass
-    #def dmpGetGyro(self, v, packet = 0):
-    #	pass
-    #def dmpGetMag(self, data, packet = 0):
-    #	pass
-    #def dmpSetLinearAccelFilterCoefficient(self, coef):
-    #	pass
-    #def dmpGetLinearAccel(self, data, packet = 0):
-    #	pass
-    #def dmpGetLinearAccel(self, data, packet = 0):
-    #	pass
-    #def dmpGetLinearAccel(self, v, packet = 0):
-    #	pass
-    #def dmpGetLinearAccel(self, v, vRaw, gravity):
-    #	pass
-    #def dmpGetLinearAccelInWorld(self, data, packet = 0):
-    #	pass
-    #def dmpGetLinearAccelInWorld(self, data, packet = 0):
-    #	pass
-    #def dmpGetLinearAccelInWorld(self, v, packet = 0):
-    #	pass
-    #def dmpGetLinearAccelInWorld(self, v, vReal, q):
-    #	pass
-    #def dmpGetGyroAndAccelSensor(self, data, packet = 0):
-    #	pass
-    #def dmpGetGyroAndAccelSensor(self, data, packet = 0):
-    #	pass
-    #def dmpGetGyroAndAccelSensor(self, g, a, packet = 0):
-    #	pass
-    #def dmpGetGyroSensor(self, data, packet = 0):
-    #	pass
-    #def dmpGetGyroSensor(self, data, packet = 0):
-    #	pass
-    #def dmpGetGyroSensor(self, v, packet = 0):
-    #	pass
-    #def dmpGetControlData(self, data, packet = 0):
-    #	pass
-    #def dmpGetTemperature(self, data, packet = 0):
-    #	pass
-    #def dmpGetGravity(self, data, packet = 0):
-    #	pass
-    #def dmpGetGravity(self, data, packet = 0):
-    #	pass
-    #def dmpGetGravity(self, v, packet = 0):
-    #	pass
-    #def dmpGetGravity(self, v, q):
-    #	pass
-    #def dmpGetUnquantizedAccel(self, data, packet = 0):
-    #	pass
-    #def dmpGetUnquantizedAccel(self, data, packet = 0):
-    #	pass
-    #def dmpGetUnquantizedAccel(self, v, packet = 0):
-    #	pass
-    #def dmpGetQuantizedAccel(self, data, packet = 0):
-    #	pass
-    #def dmpGetQuantizedAccel(self, data, packet = 0):
-    #	pass
-    #def dmpGetQuantizedAccel(self, v, packet = 0):
-    #	pass
-    #def dmpGetExternalSensorData(self, data, size, packet = 0):
-    #	pass
-    #def dmpGetEIS(self, data, packet = 0):
-    #	pass
+	## Get Fixed Point data from FIFO
+	#def dmpGetAccel(self, data, packet = 0):
+	#	pass
+	#def dmpGetAccel(self, data, packet = 0):
+	#	pass
+	#def dmpGetAccel(self, v, packet = 0):
+	#	pass
+	#def dmpGetQuaternion(self, data, packet = 0):
+	#	pass
+	#def dmpGetQuaternion(self, data, packet = 0):
+	#	pass
+	#def dmpGetQuaternion(self, q, packet = 0):
+	#	pass
+	#def dmpGet6AxisQuaternion(self, data, packet = 0):
+	#	pass
+	#def dmpGet6AxisQuaternion(self, data, packet = 0):
+	#	pass
+	#def dmpGet6AxisQuaternion(self, q, packet = 0):
+	#	pass
+	#def dmpGetRelativeQuaternion(self, data, packet = 0):
+	#	pass
+	#def dmpGetRelativeQuaternion(self, data, packet = 0):
+	#	pass
+	#def dmpGetRelativeQuaternion(self, data, packet = 0):
+	#	pass
+	#def dmpGetGyro(self, data, packet = 0):
+	#	pass
+	#def dmpGetGyro(self, data, packet = 0):
+	#	pass
+	#def dmpGetGyro(self, v, packet = 0):
+	#	pass
+	#def dmpGetMag(self, data, packet = 0):
+	#	pass
+	#def dmpSetLinearAccelFilterCoefficient(self, coef):
+	#	pass
+	#def dmpGetLinearAccel(self, data, packet = 0):
+	#	pass
+	#def dmpGetLinearAccel(self, data, packet = 0):
+	#	pass
+	#def dmpGetLinearAccel(self, v, packet = 0):
+	#	pass
+	#def dmpGetLinearAccel(self, v, vRaw, gravity):
+	#	pass
+	#def dmpGetLinearAccelInWorld(self, data, packet = 0):
+	#	pass
+	#def dmpGetLinearAccelInWorld(self, data, packet = 0):
+	#	pass
+	#def dmpGetLinearAccelInWorld(self, v, packet = 0):
+	#	pass
+	#def dmpGetLinearAccelInWorld(self, v, vReal, q):
+	#	pass
+	#def dmpGetGyroAndAccelSensor(self, data, packet = 0):
+	#	pass
+	#def dmpGetGyroAndAccelSensor(self, data, packet = 0):
+	#	pass
+	#def dmpGetGyroAndAccelSensor(self, g, a, packet = 0):
+	#	pass
+	#def dmpGetGyroSensor(self, data, packet = 0):
+	#	pass
+	#def dmpGetGyroSensor(self, data, packet = 0):
+	#	pass
+	#def dmpGetGyroSensor(self, v, packet = 0):
+	#	pass
+	#def dmpGetControlData(self, data, packet = 0):
+	#	pass
+	#def dmpGetTemperature(self, data, packet = 0):
+	#	pass
+	#def dmpGetGravity(self, data, packet = 0):
+	#	pass
+	#def dmpGetGravity(self, data, packet = 0):
+	#	pass
+	#def dmpGetGravity(self, v, packet = 0):
+	#	pass
+	#def dmpGetGravity(self, v, q):
+	#	pass
+	#def dmpGetUnquantizedAccel(self, data, packet = 0):
+	#	pass
+	#def dmpGetUnquantizedAccel(self, data, packet = 0):
+	#	pass
+	#def dmpGetUnquantizedAccel(self, v, packet = 0):
+	#	pass
+	#def dmpGetQuantizedAccel(self, data, packet = 0):
+	#	pass
+	#def dmpGetQuantizedAccel(self, data, packet = 0):
+	#	pass
+	#def dmpGetQuantizedAccel(self, v, packet = 0):
+	#	pass
+	#def dmpGetExternalSensorData(self, data, size, packet = 0):
+	#	pass
+	#def dmpGetEIS(self, data, packet = 0):
+	#	pass
 
-    #def dmpGetEuler(self, data, q):
-    #	pass
-    #def dmpGetYawPitchRoll(self, data, q, gravity):
-    #	pass
+	#def dmpGetEuler(self, data, q):
+	#	pass
+	#def dmpGetYawPitchRoll(self, data, q, gravity):
+	#	pass
 
-    ## Get Floating Point data from FIFO
-    #def dmpGetAccelFloat(self, data, packet = 0):
-    #	pass
-    #def dmpGetQuaternionFloat(self, data, packet = 0):
-    #	pass
+	## Get Floating Point data from FIFO
+	#def dmpGetAccelFloat(self, data, packet = 0):
+	#	pass
+	#def dmpGetQuaternionFloat(self, data, packet = 0):
+	#	pass
 
-    #def dmpProcessFIFOPacket(self, dmpData):
-    #	pass
-    #def dmpReadAndProcessFIFOPacket(self, numPackets, processed = NULL):
-    #	pass
+	#def dmpProcessFIFOPacket(self, dmpData):
+	#	pass
+	#def dmpReadAndProcessFIFOPacket(self, numPackets, processed = NULL):
+	#	pass
 
-    #def dmpSetFIFOProcessedCallback(self, void (*func) (void)):
-    #	pass
+	#def dmpSetFIFOProcessedCallback(self, void (*func) (void)):
+	#	pass
 
-    #def dmpInitFIFOParam(self):
-    #	pass
-    #def dmpCloseFIFO(self):
-    #	pass
-    #def dmpSetGyroDataSource(self, source):
-    #	pass
-    #def dmpDecodeQuantizedAccel(self):
-    #	pass
-    #def dmpGetGyroSumOfSquare(self):
-    #	pass
-    #def dmpGetAccelSumOfSquare(self):
-    #	pass
-    #def dmpOverrideQuaternion(self, q):
-    #	pass
-    #def dmpGetFIFOPacketSize(self):
+	#def dmpInitFIFOParam(self):
+	#	pass
+	#def dmpCloseFIFO(self):
+	#	pass
+	#def dmpSetGyroDataSource(self, source):
+	#	pass
+	#def dmpDecodeQuantizedAccel(self):
+	#	pass
+	#def dmpGetGyroSumOfSquare(self):
+	#	pass
+	#def dmpGetAccelSumOfSquare(self):
+	#	pass
+	#def dmpOverrideQuaternion(self, q):
+	#	pass
+	#def dmpGetFIFOPacketSize(self):
 	#endif
