@@ -529,10 +529,36 @@ class MPU9250:
 		self.__i2cWrapper.writeBits(self.__devAddr, MPU9250_RA_CONFIG, MPU9250_CFG_DLPF_CFG_BIT, sync);
 
 	# GYRO_CONFIG register
+	# Get full-scale gyroscope range.
+	# The FS_SEL parameter allows setting the full-scale range of the gyro sensors,
+	# as described in the table below.
+	#
+	# <pre>
+	# 0 = +/- 250 degrees/sec
+	# 1 = +/- 500 degrees/sec
+	# 2 = +/- 1000 degrees/sec
+	# 3 = +/- 2000 degrees/sec
+	# </pre>
+	#
+	# @return Current full-scale gyroscope range setting
+	# @see MPU9250_GYRO_FS_250
+	# @see MPU9250_RA_GYRO_CONFIG
+	# @see MPU9250_GCONFIG_FS_SEL_BIT
+	# @see MPU9250_GCONFIG_FS_SEL_LENGTH
 	def getFullScaleGyroRange(self):
-		pass
+    	return self.__i2cWrapper.readBits(self.__devAddr, MPU9250_RA_GYRO_CONFIG, MPU9250_GCONFIG_FS_SEL_BIT, MPU9250_GCONFIG_FS_SEL_LENGTH);
+
+	# Set full-scale gyroscope range.
+	# @param range New full-scale gyroscope range value
+	# @see getFullScaleRange()
+	# @see MPU9250_GYRO_FS_250
+	# @see MPU9250_RA_GYRO_CONFIG
+	# @see MPU9250_GCONFIG_FS_SEL_BIT
+	# @see MPU9250_GCONFIG_FS_SEL_LENGTH
 	def setFullScaleGyroRange(self, range):
-		pass
+		if len(range) != MPU9250_GCONFIG_FS_SEL_LENGTH:
+			raise ValueError("MPU9250_GCONFIG_FS_SEL_LENGTH must be " + str(MPU9250_GCONFIG_FS_SEL_LENGTH));
+		self.__i2cWrapper.writeBits(self.__devAddr, MPU9250_RA_GYRO_CONFIG, MPU9250_GCONFIG_FS_SEL_BIT, range);
 
 	# ACCEL_CONFIG register
 	def getAccelXSelfTest(self):
