@@ -565,32 +565,32 @@ class MPU9250:
 	# @return Self-test enabled value
 	# @see MPU9250_RA_ACCEL_CONFIG
 	def getAccelXSelfTest(self):
-		pass
+		return self.__i2cWrapper.readBits(self.__devAddr, MPU9250_RA_ACCEL_CONFIG, MPU9250_ACONFIG_XA_ST_BIT, 1);
 	# Get self-test enabled setting for accelerometer X axis.
 	# @param enabled Self-test enabled value
 	# @see MPU9250_RA_ACCEL_CONFIG
 	def setAccelXSelfTest(self, enabled):
-		pass
+		self.__i2cWrapper.writeBit(self.__devAddr, MPU9250_RA_ACCEL_CONFIG, MPU9250_ACONFIG_XA_ST_BIT, enabled);
 	# Get self-test enabled value for accelerometer Y axis.
 	# @return Self-test enabled value
 	# @see MPU9250_RA_ACCEL_CONFIG
 	def getAccelYSelfTest(self):
-		pass
+		return self.__i2cWrapper.readBits(self.__devAddr, MPU9250_RA_ACCEL_CONFIG, MPU9250_ACONFIG_YA_ST_BIT, 1);
 	# Get self-test enabled value for accelerometer Y axis.
 	# @param enabled Self-test enabled value
 	# @see MPU9250_RA_ACCEL_CONFIG
 	def setAccelYSelfTest(self, enabled):
-		pass
+		self.__i2cWrapper.writeBit(self.__devAddr, MPU9250_RA_ACCEL_CONFIG, MPU9250_ACONFIG_YA_ST_BIT, enabled);
 	# Get self-test enabled value for accelerometer Z axis.
 	# @return Self-test enabled value
 	# @see MPU9250_RA_ACCEL_CONFIG
 	def getAccelZSelfTest(self):
-		pass
+		return self.__i2cWrapper.readBits(self.__devAddr, MPU9250_RA_ACCEL_CONFIG, MPU9250_ACONFIG_ZA_ST_BIT, 1);
 	# Set self-test enabled value for accelerometer Z axis.
 	# @param enabled Self-test enabled value
 	# @see MPU9250_RA_ACCEL_CONFIG
 	def setAccelZSelfTest(self, enabled):
-		pass
+		self.__i2cWrapper.writeBit(self.__devAddr, MPU9250_RA_ACCEL_CONFIG, MPU9250_ACONFIG_ZA_ST_BIT, enabled);
 	# Get full-scale accelerometer range.
 	# The FS_SEL parameter allows setting the full-scale range of the accelerometer
 	# sensors, as described in the table below.
@@ -608,12 +608,14 @@ class MPU9250:
 	# @see MPU9250_ACONFIG_AFS_SEL_BIT
 	# @see MPU9250_ACONFIG_AFS_SEL_LENGTH
 	def getFullScaleAccelRange(self):
-		pass
+    	return self.__i2cWrapper.readBits(self.__devAddr, MPU9250_RA_ACCEL_CONFIG, MPU9250_ACONFIG_AFS_SEL_BIT, MPU9250_ACONFIG_AFS_SEL_LENGTH);
 	# Set full-scale accelerometer range.
 	# @param range New full-scale accelerometer range setting
 	# @see getFullScaleAccelRange()
 	def setFullScaleAccelRange(self, range):
-		pass
+		if len(range) != MPU9250_ACONFIG_AFS_SEL_LENGTH:
+			raise ValueError("MPU9250_ACONFIG_AFS_SEL_LENGTH must be " + str(MPU9250_ACONFIG_AFS_SEL_LENGTH));
+		self.__i2cWrapper.writeBits(self.__devAddr, MPU9250_RA_ACCEL_CONFIG, MPU9250_ACONFIG_AFS_SEL_BIT, range);
 	# Get the high-pass filter configuration.
 	# The DHPF is a filter module in the path leading to motion detectors (Free
 	# Fall, Motion threshold, and Zero Motion). The high pass filter output is not
@@ -649,14 +651,16 @@ class MPU9250:
 	# @see MPU9250_DHPF_RESET
 	# @see MPU9250_RA_ACCEL_CONFIG
 	def getDHPFMode(self):
-		pass
+    	return self.__i2cWrapper.readBits(self.__devAddr, MPU9250_RA_ACCEL_CONFIG, MPU9250_ACONFIG_ACCEL_HPF_BIT, MPU9250_ACONFIG_ACCEL_HPF_LENGTH);
 	# Set the high-pass filter configuration.
 	# @param bandwidth New high-pass filter configuration
 	# @see setDHPFMode()
 	# @see MPU9250_DHPF_RESET
 	# @see MPU9250_RA_ACCEL_CONFIG
 	def setDHPFMode(self, mode):
-		pass
+		if len(mode) != MPU9250_ACONFIG_ACCEL_HPF_LENGTH:
+			raise ValueError("MPU9250_ACONFIG_ACCEL_HPF_LENGTH must be " + str(MPU9250_ACONFIG_ACCEL_HPF_LENGTH));
+		self.__i2cWrapper.writeBits(self.__devAddr, MPU9250_RA_ACCEL_CONFIG, MPU9250_ACONFIG_ACCEL_HPF_BIT, mode);
 
 	# FF_THR register
 	def getFreefallDetectionThreshold(self):
