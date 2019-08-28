@@ -367,7 +367,7 @@ MPU9250_DMP_MEMORY_BANK_SIZE = 256
 MPU9250_DMP_MEMORY_CHUNK_SIZE = 16
 
 class MPU9250:
-	# Specific address constructor.
+	## Specific address constructor.
 	# @param i2c_manager instance of I2CWrapper that connected to I2C
 	# @param address I2C address
 	# @see MPU9250_DEFAULT_ADDRESS
@@ -380,7 +380,7 @@ class MPU9250:
 		self.__devAddr = address;
 		self.__i2cWrapper = i2c_manager;
 
-	# Power on and prepare for general usage.
+	## Power on and prepare for general usage.
 	# This will activate the device and take it out of sleep mode (which must be done
 	# after start-up). This function also sets both the accelerometer and the gyroscope
 	# to their most sensitive settings, namely +/- 2g and +/- 250 degrees/sec, and sets
@@ -393,7 +393,7 @@ class MPU9250:
 		self.setSleepEnabled(False);
 
 
-	# Verify the I2C connection.
+	## Verify the I2C connection.
 	# Make sure the device is connected and responds as expected.
 	# @return True if connection is valid, False otherwise
 	def testConnection(self):
@@ -486,7 +486,7 @@ class MPU9250:
 			raise ValueError("MPU9250_CFG_EXT_SYNC_SET_LENGTH must be " + str(MPU9250_CFG_EXT_SYNC_SET_LENGTH));
 		self.__i2cWrapper.writeBits(self.__devAddr, MPU9250_RA_CONFIG, MPU9250_CFG_EXT_SYNC_SET_BIT, sync);
 
-	# Get digital low-pass filter configuration.
+	## Get digital low-pass filter configuration.
 	# The DLPF_CFG parameter sets the digital low pass filter configuration. It
 	# also determines the internal sampling rate used by the device as shown in
 	# the table below.
@@ -528,7 +528,7 @@ class MPU9250:
 			raise ValueError("MPU9250_CFG_DLPF_CFG_LENGTH must be " + str(MPU9250_CFG_DLPF_CFG_LENGTH));
 		self.__i2cWrapper.writeBits(self.__devAddr, MPU9250_RA_CONFIG, MPU9250_CFG_DLPF_CFG_BIT, sync);
 
-	# GYRO_CONFIG register
+	## GYRO_CONFIG register
 	# Get full-scale gyroscope range.
 	# The FS_SEL parameter allows setting the full-scale range of the gyro sensors,
 	# as described in the table below.
@@ -560,7 +560,7 @@ class MPU9250:
 			raise ValueError("MPU9250_GCONFIG_FS_SEL_LENGTH must be " + str(MPU9250_GCONFIG_FS_SEL_LENGTH));
 		self.__i2cWrapper.writeBits(self.__devAddr, MPU9250_RA_GYRO_CONFIG, MPU9250_GCONFIG_FS_SEL_BIT, range);
 
-	# ACCEL_CONFIG register
+	## ACCEL_CONFIG register
 	def getAccelXSelfTest(self):
 		pass
 	def setAccelXSelfTest(self, enabled):
