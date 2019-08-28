@@ -475,16 +475,18 @@ class MPU9250:
 	#
 	# @return FSYNC configuration value
 	def getExternalFrameSync(self):
-		I2Cdev::readBits(devAddr, MPU9250_RA_CONFIG, MPU9250_CFG_EXT_SYNC_SET_BIT, MPU9250_CFG_EXT_SYNC_SET_LENGTH, buffer);
-		return buffer[0];
+		return self.__i2cWrapper.readBits(self.__devAddr, MPU9250_RA_CONFIG, MPU9250_CFG_EXT_SYNC_SET_BIT, MPU9250_CFG_EXT_SYNC_SET_LENGTH);
 
 	# Set external FSYNC configuration.
 	# @see getExternalFrameSync()
 	# @see MPU9250_RA_CONFIG
 	# @param sync New FSYNC configuration value
 	def setExternalFrameSync(self, sync):
-		I2Cdev::writeBits(devAddr, MPU9250_RA_CONFIG, MPU9250_CFG_EXT_SYNC_SET_BIT, MPU9250_CFG_EXT_SYNC_SET_LENGTH, sync);
+		if len(sync) != MPU9250_CFG_EXT_SYNC_SET_LENGTH:
+			raise ValueError("MPU9250_CFG_EXT_SYNC_SET_LENGTH must be " + str(MPU9250_CFG_EXT_SYNC_SET_LENGTH));
+		self.__i2cWrapper.writeBits(self.__devAddr, MPU9250_RA_CONFIG, MPU9250_CFG_EXT_SYNC_SET_BIT, sync);
 
+#==============================================TODO====================================================
 	# Get digital low-pass filter configuration.
 	# The DLPF_CFG parameter sets the digital low pass filter configuration. It
 	# also determines the internal sampling rate used by the device as shown in
