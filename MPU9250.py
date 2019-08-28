@@ -561,24 +561,100 @@ class MPU9250:
 		self.__i2cWrapper.writeBits(self.__devAddr, MPU9250_RA_GYRO_CONFIG, MPU9250_GCONFIG_FS_SEL_BIT, range);
 
 	## ACCEL_CONFIG register
+	# Get self-test enabled setting for accelerometer X axis.
+	# @return Self-test enabled value
+	# @see MPU9250_RA_ACCEL_CONFIG
 	def getAccelXSelfTest(self):
 		pass
+	# Get self-test enabled setting for accelerometer X axis.
+	# @param enabled Self-test enabled value
+	# @see MPU9250_RA_ACCEL_CONFIG
 	def setAccelXSelfTest(self, enabled):
 		pass
+	# Get self-test enabled value for accelerometer Y axis.
+	# @return Self-test enabled value
+	# @see MPU9250_RA_ACCEL_CONFIG
 	def getAccelYSelfTest(self):
 		pass
+	# Get self-test enabled value for accelerometer Y axis.
+	# @param enabled Self-test enabled value
+	# @see MPU9250_RA_ACCEL_CONFIG
 	def setAccelYSelfTest(self, enabled):
 		pass
+	# Get self-test enabled value for accelerometer Z axis.
+	# @return Self-test enabled value
+	# @see MPU9250_RA_ACCEL_CONFIG
 	def getAccelZSelfTest(self):
 		pass
+	# Set self-test enabled value for accelerometer Z axis.
+	# @param enabled Self-test enabled value
+	# @see MPU9250_RA_ACCEL_CONFIG
 	def setAccelZSelfTest(self, enabled):
 		pass
+	# Get full-scale accelerometer range.
+	# The FS_SEL parameter allows setting the full-scale range of the accelerometer
+	# sensors, as described in the table below.
+	#
+	# <pre>
+	# 0 = +/- 2g
+	# 1 = +/- 4g
+	# 2 = +/- 8g
+	# 3 = +/- 16g
+	# </pre>
+	#
+	# @return Current full-scale accelerometer range setting
+	# @see MPU9250_ACCEL_FS_2
+	# @see MPU9250_RA_ACCEL_CONFIG
+	# @see MPU9250_ACONFIG_AFS_SEL_BIT
+	# @see MPU9250_ACONFIG_AFS_SEL_LENGTH
 	def getFullScaleAccelRange(self):
 		pass
+	# Set full-scale accelerometer range.
+	# @param range New full-scale accelerometer range setting
+	# @see getFullScaleAccelRange()
 	def setFullScaleAccelRange(self, range):
 		pass
+	# Get the high-pass filter configuration.
+	# The DHPF is a filter module in the path leading to motion detectors (Free
+	# Fall, Motion threshold, and Zero Motion). The high pass filter output is not
+	# available to the data registers (see Figure in Section 8 of the MPU-6000/
+	# MPU-9250 Product Specification document).
+	#
+	# The high pass filter has three modes:
+	#
+	# <pre>
+	#    Reset: The filter output settles to zero within one sample. This
+	#           effectively disables the high pass filter. This mode may be toggled
+	#           to quickly settle the filter.
+	#
+	#    On:    The high pass filter will pass signals above the cut off frequency.
+	#
+	#    Hold:  When triggered, the filter holds the present sample. The filter
+	#           output will be the difference between the input sample and the held
+	#           sample.
+	# </pre>
+	#
+	# <pre>
+	# ACCEL_HPF | Filter Mode | Cut-off Frequency
+	# ----------+-------------+------------------
+	# 0         | Reset       | None
+	# 1         | On          | 5Hz
+	# 2         | On          | 2.5Hz
+	# 3         | On          | 1.25Hz
+	# 4         | On          | 0.63Hz
+	# 7         | Hold        | None
+	# </pre>
+	#
+	# @return Current high-pass filter configuration
+	# @see MPU9250_DHPF_RESET
+	# @see MPU9250_RA_ACCEL_CONFIG
 	def getDHPFMode(self):
 		pass
+	# Set the high-pass filter configuration.
+	# @param bandwidth New high-pass filter configuration
+	# @see setDHPFMode()
+	# @see MPU9250_DHPF_RESET
+	# @see MPU9250_RA_ACCEL_CONFIG
 	def setDHPFMode(self, mode):
 		pass
 
