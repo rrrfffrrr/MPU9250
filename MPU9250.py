@@ -486,7 +486,6 @@ class MPU9250:
 			raise ValueError("MPU9250_CFG_EXT_SYNC_SET_LENGTH must be " + str(MPU9250_CFG_EXT_SYNC_SET_LENGTH));
 		self.__i2cWrapper.writeBits(self.__devAddr, MPU9250_RA_CONFIG, MPU9250_CFG_EXT_SYNC_SET_BIT, sync);
 
-#==============================================TODO====================================================
 	# Get digital low-pass filter configuration.
 	# The DLPF_CFG parameter sets the digital low pass filter configuration. It
 	# also determines the internal sampling rate used by the device as shown in
@@ -515,8 +514,7 @@ class MPU9250:
 	# @see MPU9250_CFG_DLPF_CFG_BIT
 	# @see MPU9250_CFG_DLPF_CFG_LENGTH
 	def getDLPFMode(self):
-		I2Cdev::readBits(devAddr, MPU9250_RA_CONFIG, MPU9250_CFG_DLPF_CFG_BIT, MPU9250_CFG_DLPF_CFG_LENGTH, buffer);
-		return buffer[0];
+		return self.__i2cWrapper.readBits(self.__devAddr, MPU9250_RA_CONFIG, MPU9250_CFG_DLPF_CFG_BIT, MPU9250_CFG_DLPF_CFG_LENGTH);
 
 	# Set digital low-pass filter configuration.
 	# @param mode New DLFP configuration setting
@@ -526,7 +524,9 @@ class MPU9250:
 	# @see MPU9250_CFG_DLPF_CFG_BIT
 	# @see MPU9250_CFG_DLPF_CFG_LENGTH
 	def setDLPFMode(self, bandwidth):
-		I2Cdev::writeBits(devAddr, MPU9250_RA_CONFIG, MPU9250_CFG_DLPF_CFG_BIT, MPU9250_CFG_DLPF_CFG_LENGTH, mode);
+		if len(bandwidth) != MPU9250_CFG_DLPF_CFG_LENGTH:
+			raise ValueError("MPU9250_CFG_DLPF_CFG_LENGTH must be " + str(MPU9250_CFG_DLPF_CFG_LENGTH));
+		self.__i2cWrapper.writeBits(self.__devAddr, MPU9250_RA_CONFIG, MPU9250_CFG_DLPF_CFG_BIT, sync);
 
 	# GYRO_CONFIG register
 	def getFullScaleGyroRange(self):
