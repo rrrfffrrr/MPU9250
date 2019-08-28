@@ -378,7 +378,7 @@ class MPU9250:
 			raise TypeError("i2c_manager must be instance of 'I2CWrapper' class");
 
 		self.__devAddr = address;
-		self.__i2cManager = i2c_manager;
+		self.__i2cWrapper = i2c_manager;
 
 	# Power on and prepare for general usage.
 	# This will activate the device and take it out of sleep mode (which must be done
@@ -406,7 +406,7 @@ class MPU9250:
 	# the MPU-6000, which does not have a VLOGIC pin.
 	# @return I2C supply voltage level (0 = VLOGIC, 1 = VDD)
 	def getAuxVDDIOLevel(self):
-		return self.__i2cManager.readBits(self.__devAddr, MPU9250_RA_YG_OFFS_TC, MPU9250_TC_PWR_MODE_BIT, 1);
+		return self.__i2cWrapper.readBits(self.__devAddr, MPU9250_RA_YG_OFFS_TC, MPU9250_TC_PWR_MODE_BIT, 1)[0];
 
 	# Set the auxiliary I2C supply voltage level.
 	# When set to 1, the auxiliary I2C bus high logic level is VDD. When cleared to
@@ -414,7 +414,7 @@ class MPU9250:
 	# the MPU-6000, which does not have a VLOGIC pin.
 	# @param level I2C supply voltage level (0 = VLOGIC, 1 = VDD)
 	def setAuxVDDIOLevel(self, level):
-		self.__i2cManager.writeBit(devAddr, MPU9250_RA_YG_OFFS_TC, MPU9250_TC_PWR_MODE_BIT, level);
+		self.__i2cWrapper.writeBit(self.__devAddr, MPU9250_RA_YG_OFFS_TC, MPU9250_TC_PWR_MODE_BIT, level);
 
 	## SMPLRT_DIV register
 	# Get gyroscope output rate divider.
@@ -438,15 +438,15 @@ class MPU9250:
 	# @return Current sample rate
 	# @see MPU9250_RA_SMPLRT_DIV
 	def getRate(self):
-		return self.__i2cManager.readBytes(self.__devAddr, MPU9250_RA_SMPLRT_DIV, 1);
+		return self.__i2cWrapper.readBytes(self.__devAddr, MPU9250_RA_SMPLRT_DIV, 1)[0];
 
 	# Set gyroscope sample rate divider.
 	# @param rate New sample rate divider
 	# @see getRate()
 	# @see MPU9250_RA_SMPLRT_DIV
 	def setRate(self, rate):
-		self.__i2cManager.writeByte(self.__devAddr, MPU9250_RA_SMPLRT_DIV, rate);
-#==============================================TODO====================================================
+		self.__i2cWrapper.writeByte(self.__devAddr, MPU9250_RA_SMPLRT_DIV, rate);
+
 	## CONFIG register
 	# Get external FSYNC configuration.
 	# Configures the external Frame Synchronization (FSYNC) pin sampling. An
@@ -461,16 +461,16 @@ class MPU9250:
 	# the following table.
 	#
 	# <pre>
-	# EXT_SYNC_SET | FSYNC Bit Location
+	# EXT_SYNC_SET | bit | FSYNC Bit Location
 	# -------------+-------------------
-	# 0			| Input disabled
-	# 1			| TEMP_OUT_L[0]
-	# 2			| GYRO_XOUT_L[0]
-	# 3			| GYRO_YOUT_L[0]
-	# 4			| GYRO_ZOUT_L[0]
-	# 5			| ACCEL_XOUT_L[0]
-	# 6			| ACCEL_YOUT_L[0]
-	# 7			| ACCEL_ZOUT_L[0]
+	# 0            | 000 | Input disabled
+	# 1            | 001 | TEMP_OUT_L[0]
+	# 2            | 010 | GYRO_XOUT_L[0]
+	# 3            | 011 | GYRO_YOUT_L[0]
+	# 4            | 100 | GYRO_ZOUT_L[0]
+	# 5            | 101 | ACCEL_XOUT_L[0]
+	# 6            | 110 | ACCEL_YOUT_L[0]
+	# 7            | 111 | ACCEL_ZOUT_L[0]
 	# </pre>
 	#
 	# @return FSYNC configuration value
