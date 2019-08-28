@@ -378,7 +378,6 @@ class MPU9250:
 			raise TypeError("i2c_manager must be instance of 'I2CWrapper' class");
 
 		self.__devAddr = address;
-		self.__buffer = [];
 		self.__i2cManager = i2c_manager;
 
 	# Power on and prepare for general usage.
@@ -396,7 +395,7 @@ class MPU9250:
 
 	# Verify the I2C connection.
 	# Make sure the device is connected and responds as expected.
-	# @return True if connection is valid, false otherwise
+	# @return True if connection is valid, False otherwise
 	def testConnection(self):
 		return self.getDeviceID() == 0x71;
 
@@ -405,18 +404,17 @@ class MPU9250:
 	# When set to 1, the auxiliary I2C bus high logic level is VDD. When cleared to
 	# 0, the auxiliary I2C bus high logic level is VLOGIC. This does not apply to
 	# the MPU-6000, which does not have a VLOGIC pin.
-	# @return I2C supply voltage level (0=VLOGIC, 1=VDD)
+	# @return I2C supply voltage level (0 = VLOGIC, 1 = VDD)
 	def getAuxVDDIOLevel(self):
-		self.__buffer = self.__i2cManager.readBytes(self.__devAddr, MPU9250_RA_YG_OFFS_TC, 1);
-		return list(bin(self.__buffer))[:1:-1][MPU9250_TC_PWR_MODE_BIT - 1] == '1';
+		return self.__i2cManager.readBits(self.__devAddr, MPU9250_RA_YG_OFFS_TC, MPU9250_TC_PWR_MODE_BIT, 1);
 
+	# Set the auxiliary I2C supply voltage level.
+	# When set to 1, the auxiliary I2C bus high logic level is VDD. When cleared to
+	# 0, the auxiliary I2C bus high logic level is VLOGIC. This does not apply to
+	# the MPU-6000, which does not have a VLOGIC pin.
+	# @param level I2C supply voltage level (0 = VLOGIC, 1 = VDD)
 	def setAuxVDDIOLevel(self, level):
-		self.__buffer = self.__i2cManager.readBytes(self.__devAddr, MPU9250_RA_YG_OFFS_TC, 1);
-		buf = list(bin(self.__buffer))[:1:-1];
-		buf.extend(['0'] * (7 - len(buf)));
-		buf[MPU9250_TC_PWR_MODE_BIT - 1] = str(level * 1);
-		buf.extend(['b', '0']);
-		self.__i2cManager.writeByte(devAddr, MPU9250_RA_YG_OFFS_TC, int("".join(buf[::-1]), 2));
+		self.__i2cManager.writeBit(devAddr, MPU9250_RA_YG_OFFS_TC, MPU9250_TC_PWR_MODE_BIT, level);
 
 	## SMPLRT_DIV register
 	# Get gyroscope output rate divider.
@@ -440,8 +438,7 @@ class MPU9250:
 	# @return Current sample rate
 	# @see MPU9250_RA_SMPLRT_DIV
 	def getRate(self):
-		self.__buffer = self.__i2cManager.readBytes(self.__devAddr, MPU9250_RA_SMPLRT_DIV, 1);
-		return self.__buffer[0];
+		return self.__i2cManager.readBytes(self.__devAddr, MPU9250_RA_SMPLRT_DIV, 1);
 
 	# Set gyroscope sample rate divider.
 	# @param rate New sample rate divider
@@ -528,3 +525,971 @@ class MPU9250:
 	# @see MPU9250_CFG_DLPF_CFG_LENGTH
 	def setDLPFMode(self, bandwidth):
 		I2Cdev::writeBits(devAddr, MPU9250_RA_CONFIG, MPU9250_CFG_DLPF_CFG_BIT, MPU9250_CFG_DLPF_CFG_LENGTH, mode);
+
+	# GYRO_CONFIG register
+	def getFullScaleGyroRange(self):
+		pass
+	def setFullScaleGyroRange(self, range):
+		pass
+
+	# ACCEL_CONFIG register
+	def getAccelXSelfTest(self):
+		pass
+	def setAccelXSelfTest(self, enabled):
+		pass
+	def getAccelYSelfTest(self):
+		pass
+	def setAccelYSelfTest(self, enabled):
+		pass
+	def getAccelZSelfTest(self):
+		pass
+	def setAccelZSelfTest(self, enabled):
+		pass
+	def getFullScaleAccelRange(self):
+		pass
+	def setFullScaleAccelRange(self, range):
+		pass
+	def getDHPFMode(self):
+		pass
+	def setDHPFMode(self, mode):
+		pass
+
+	# FF_THR register
+	def getFreefallDetectionThreshold(self):
+		pass
+	def setFreefallDetectionThreshold(self, threshold):
+		pass
+
+	# FF_DUR register
+	def getFreefallDetectionDuration(self):
+		pass
+	def setFreefallDetectionDuration(self, duration):
+		pass
+
+	# MOT_THR register
+	def getMotionDetectionThreshold(self):
+		pass
+	def setMotionDetectionThreshold(self, threshold):
+		pass
+
+	# MOT_DUR register
+	def getMotionDetectionDuration(self):
+		pass
+	def setMotionDetectionDuration(self, duration):
+		pass
+
+	# ZRMOT_THR register
+	def getZeroMotionDetectionThreshold(self):
+		pass
+	def setZeroMotionDetectionThreshold(self, threshold):
+		pass
+
+	# ZRMOT_DUR register
+	def getZeroMotionDetectionDuration(self):
+		pass
+	def setZeroMotionDetectionDuration(self, duration):
+		pass
+
+	# FIFO_EN register
+	def getTempFIFOEnabled(self):
+		pass
+	def setTempFIFOEnabled(self, enabled):
+		pass
+	def getXGyroFIFOEnabled(self):
+		pass
+	def setXGyroFIFOEnabled(self, enabled):
+		pass
+	def getYGyroFIFOEnabled(self):
+		pass
+	def setYGyroFIFOEnabled(self, enabled):
+		pass
+	def getZGyroFIFOEnabled(self):
+		pass
+	def setZGyroFIFOEnabled(self, enabled):
+		pass
+	def getAccelFIFOEnabled(self):
+		pass
+	def setAccelFIFOEnabled(self, enabled):
+		pass
+	def getSlave2FIFOEnabled(self):
+		pass
+	def setSlave2FIFOEnabled(self, enabled):
+		pass
+	def getSlave1FIFOEnabled(self):
+		pass
+	def setSlave1FIFOEnabled(self, enabled):
+		pass
+	def getSlave0FIFOEnabled(self):
+		pass
+	def setSlave0FIFOEnabled(self, enabled):
+		pass
+
+	# I2C_MST_CTRL register
+	def getMultiMasterEnabled(self):
+		pass
+	def setMultiMasterEnabled(self, enabled):
+		pass
+	def getWaitForExternalSensorEnabled(self):
+		pass
+	def setWaitForExternalSensorEnabled(self, enabled):
+		pass
+	def getSlave3FIFOEnabled(self):
+		pass
+	def setSlave3FIFOEnabled(self, enabled):
+		pass
+	def getSlaveReadWriteTransitionEnabled(self):
+		pass
+	def setSlaveReadWriteTransitionEnabled(self, enabled):
+		pass
+	def getMasterClockSpeed(self):
+		pass
+	def setMasterClockSpeed(self, speed):
+		pass
+
+	# I2C_SLV* registers (Slave 0-3)
+	def getSlaveAddress(self, num):
+		pass
+	def setSlaveAddress(self, num, address):
+		pass
+	def getSlaveRegister(self, num):
+		pass
+	def setSlaveRegister(self, num, reg):
+		pass
+	def getSlaveEnabled(self, num):
+		pass
+	def setSlaveEnabled(self, num, enabled):
+		pass
+	def getSlaveWordByteSwap(self, num):
+		pass
+	def setSlaveWordByteSwap(self, num, enabled):
+		pass
+	def getSlaveWriteMode(self, num):
+		pass
+	def setSlaveWriteMode(self, num, mode):
+		pass
+	def getSlaveWordGroupOffset(self, num):
+		pass
+	def setSlaveWordGroupOffset(self, num, enabled):
+		pass
+	def getSlaveDataLength(self, num):
+		pass
+	def setSlaveDataLength(self, num, length):
+		pass
+
+	# I2C_SLV* registers (Slave 4)
+	def getSlave4Address(self):
+		pass
+	def setSlave4Address(self, address):
+		pass
+	def getSlave4Register(self):
+		pass
+	def setSlave4Register(self, reg):
+		pass
+	def setSlave4OutputByte(self, data):
+		pass
+	def getSlave4Enabled(self):
+		pass
+	def setSlave4Enabled(self, enabled):
+		pass
+	def getSlave4InterruptEnabled(self):
+		pass
+	def setSlave4InterruptEnabled(self, enabled):
+		pass
+	def getSlave4WriteMode(self):
+		pass
+	def setSlave4WriteMode(self, mode):
+		pass
+	def getSlave4MasterDelay(self):
+		pass
+	def setSlave4MasterDelay(self, delay):
+		pass
+	def getSlate4InputByte(self):
+		pass
+
+	# I2C_MST_STATUS register
+	def getPassthroughStatus(self):
+		pass
+	def getSlave4IsDone(self):
+		pass
+	def getLostArbitration(self):
+		pass
+	def getSlave4Nack(self):
+		pass
+	def getSlave3Nack(self):
+		pass
+	def getSlave2Nack(self):
+		pass
+	def getSlave1Nack(self):
+		pass
+	def getSlave0Nack(self):
+		pass
+
+	# INT_PIN_CFG register
+	def getInterruptMode(self):
+		pass
+	def setInterruptMode(self, mode):
+		pass
+	def getInterruptDrive(self):
+		pass
+	def setInterruptDrive(self, drive):
+		pass
+	def getInterruptLatch(self):
+		pass
+	def setInterruptLatch(self, latch):
+		pass
+	def getInterruptLatchClear(self):
+		pass
+	def setInterruptLatchClear(self, clear):
+		pass
+	def getFSyncInterruptLevel(self):
+		pass
+	def setFSyncInterruptLevel(self, level):
+		pass
+	def getFSyncInterruptEnabled(self):
+		pass
+	def setFSyncInterruptEnabled(self, enabled):
+		pass
+	def getI2CBypassEnabled(self):
+		pass
+	def setI2CBypassEnabled(self, enabled):
+		pass
+	def getClockOutputEnabled(self):
+		pass
+	def setClockOutputEnabled(self, enabled):
+		pass
+
+	# INT_ENABLE register
+	def getIntEnabled(self):
+		pass
+	def setIntEnabled(self, enabled):
+		pass
+	def getIntFreefallEnabled(self):
+		pass
+	def setIntFreefallEnabled(self, enabled):
+		pass
+	def getIntMotionEnabled(self):
+		pass
+	def setIntMotionEnabled(self, enabled):
+		pass
+	def getIntZeroMotionEnabled(self):
+		pass
+	def setIntZeroMotionEnabled(self, enabled):
+		pass
+	def getIntFIFOBufferOverflowEnabled(self):
+		pass
+	def setIntFIFOBufferOverflowEnabled(self, enabled):
+		pass
+	def getIntI2CMasterEnabled(self):
+		pass
+	def setIntI2CMasterEnabled(self, enabled):
+		pass
+	def getIntDataReadyEnabled(self):
+		pass
+	def setIntDataReadyEnabled(self, enabled):
+		pass
+
+	# INT_STATUS register
+	def getIntStatus(self):
+		pass
+	def getIntFreefallStatus(self):
+		pass
+	def getIntMotionStatus(self):
+		pass
+	def getIntZeroMotionStatus(self):
+		pass
+	def getIntFIFOBufferOverflowStatus(self):
+		pass
+	def getIntI2CMasterStatus(self):
+		pass
+	def getIntDataReadyStatus(self):
+		pass
+
+	# ACCEL_*OUT_* registers
+	def getMotion9(self, ax, ay, az, gx, gy, gz, mx, my, mz):
+		pass
+	def getMotion6(self, ax, ay, az, gx, gy, gz):
+		pass
+	def getAcceleration(self, x, y, z):
+		pass
+	def getAccelerationX(self):
+		pass
+	def getAccelerationY(self):
+		pass
+	def getAccelerationZ(self):
+		pass
+
+	# TEMP_OUT_* registers
+	def getTemperature(self):
+		pass
+
+	# GYRO_*OUT_* registers
+	def getRotation(self, x, y, z):
+		pass
+	def getRotationX(self):
+		pass
+	def getRotationY(self):
+		pass
+	def getRotationZ(self):
+		pass
+
+	# EXT_SENS_DATA_* registers
+	def getExternalSensorByte(self, position):
+		pass
+	def getExternalSensorWord(self, position):
+		pass
+	def getExternalSensorDWord(self, position):
+		pass
+
+	# MOT_DETECT_STATUS register
+	def getXNegMotionDetected(self):
+		pass
+	def getXPosMotionDetected(self):
+		pass
+	def getYNegMotionDetected(self):
+		pass
+	def getYPosMotionDetected(self):
+		pass
+	def getZNegMotionDetected(self):
+		pass
+	def getZPosMotionDetected(self):
+		pass
+	def getZeroMotionDetected(self):
+		pass
+
+	# I2C_SLV*_DO register
+	def setSlaveOutputByte(self, num, data):
+		pass
+
+	# I2C_MST_DELAY_CTRL register
+	def getExternalShadowDelayEnabled(self):
+		pass
+	def setExternalShadowDelayEnabled(self, enabled):
+		pass
+	def getSlaveDelayEnabled(self, num):
+		pass
+	def setSlaveDelayEnabled(self, num, enabled):
+		pass
+
+	# SIGNAL_PATH_RESET register
+	def resetGyroscopePath(self):
+		pass
+	def resetAccelerometerPath(self):
+		pass
+	def resetTemperaturePath(self):
+		pass
+
+	# MOT_DETECT_CTRL register
+	def getAccelerometerPowerOnDelay(self):
+		pass
+	def setAccelerometerPowerOnDelay(self, delay):
+		pass
+	def getFreefallDetectionCounterDecrement(self):
+		pass
+	def setFreefallDetectionCounterDecrement(self, decrement):
+		pass
+	def getMotionDetectionCounterDecrement(self):
+		pass
+	def setMotionDetectionCounterDecrement(self, decrement):
+		pass
+
+	# USER_CTRL register
+	def getFIFOEnabled(self):
+		pass
+	def setFIFOEnabled(self, enabled):
+		pass
+	def getI2CMasterModeEnabled(self):
+		pass
+	def setI2CMasterModeEnabled(self, enabled):
+		pass
+	def switchSPIEnabled(self, enabled):
+		pass
+	def resetFIFO(self):
+		pass
+	def resetI2CMaster(self):
+		pass
+	def resetSensors(self):
+		pass
+
+	# PWR_MGMT_1 register
+	def reset(self):
+		pass
+	def getSleepEnabled(self):
+		pass
+	def setSleepEnabled(self, enabled):
+		pass
+	def getWakeCycleEnabled(self):
+		pass
+	def setWakeCycleEnabled(self, enabled):
+		pass
+	def getTempSensorEnabled(self):
+		pass
+	def setTempSensorEnabled(self, enabled):
+		pass
+	def getClockSource(self):
+		pass
+	def setClockSource(self, source):
+		pass
+
+	# PWR_MGMT_2 register
+	def getWakeFrequency(self):
+		pass
+	def setWakeFrequency(self, frequency):
+		pass
+	def getStandbyXAccelEnabled(self):
+		pass
+	def setStandbyXAccelEnabled(self, enabled):
+		pass
+	def getStandbyYAccelEnabled(self):
+		pass
+	def setStandbyYAccelEnabled(self, enabled):
+		pass
+	def getStandbyZAccelEnabled(self):
+		pass
+	def setStandbyZAccelEnabled(self, enabled):
+		pass
+	def getStandbyXGyroEnabled(self):
+		pass
+	def setStandbyXGyroEnabled(self, enabled):
+		pass
+	def getStandbyYGyroEnabled(self):
+		pass
+	def setStandbyYGyroEnabled(self, enabled):
+		pass
+	def getStandbyZGyroEnabled(self):
+		pass
+	def setStandbyZGyroEnabled(self, enabled):
+		pass
+
+	# FIFO_COUNT_* registers
+	def getFIFOCount(self):
+		pass
+
+	# FIFO_R_W register
+	def getFIFOByte(self):
+		pass
+	def setFIFOByte(self, data):
+		pass
+	def getFIFOBytes(self, data, length):
+		pass
+
+	# WHO_AM_I register
+	def getDeviceID(self):
+		pass
+	def setDeviceID(self, id):
+		pass
+
+	# ======== UNDOCUMENTED/DMP REGISTERS/METHODS ========
+
+	# XG_OFFS_TC register
+	def getOTPBankValid(self):
+		pass
+	def setOTPBankValid(self, enabled):
+		pass
+	def getXGyroOffset(self):
+		pass
+	def setXGyroOffset(self, offset):
+		pass
+
+	# YG_OFFS_TC register
+	def getYGyroOffset(self):
+		pass
+	def setYGyroOffset(self, offset):
+		pass
+
+	# ZG_OFFS_TC register
+	def getZGyroOffset(self):
+		pass
+	def setZGyroOffset(self, offset):
+		pass
+
+	# X_FINE_GAIN register
+	def getXFineGain(self):
+		pass
+	def setXFineGain(self, gain):
+		pass
+
+	# Y_FINE_GAIN register
+	def getYFineGain(self):
+		pass
+	def setYFineGain(self, gain):
+		pass
+
+	# Z_FINE_GAIN register
+	def getZFineGain(self):
+		pass
+	def setZFineGain(self, gain):
+		pass
+
+	# XA_OFFS_* registers
+	def getXAccelOffset(self):
+		pass
+	def setXAccelOffset(self, offset):
+		pass
+
+	# YA_OFFS_* register
+	def getYAccelOffset(self):
+		pass
+	def setYAccelOffset(self, offset):
+		pass
+
+	# ZA_OFFS_* register
+	def getZAccelOffset(self):
+		pass
+	def setZAccelOffset(self, offset):
+		pass
+
+	# XG_OFFS_USR* registers
+	def getXGyroOffsetUser(self):
+		pass
+	def setXGyroOffsetUser(self, offset):
+		pass
+
+	# YG_OFFS_USR* register
+	def getYGyroOffsetUser(self):
+		pass
+	def setYGyroOffsetUser(self, offset):
+		pass
+
+	# ZG_OFFS_USR* register
+	def getZGyroOffsetUser(self):
+		pass
+	def setZGyroOffsetUser(self, offset):
+		pass
+
+	# INT_ENABLE register (DMP functions)
+	def getIntPLLReadyEnabled(self):
+		pass
+	def setIntPLLReadyEnabled(self, enabled):
+		pass
+	def getIntDMPEnabled(self):
+		pass
+	def setIntDMPEnabled(self, enabled):
+		pass
+
+	# DMP_INT_STATUS
+	def getDMPInt5Status(self):
+		pass
+	def getDMPInt4Status(self):
+		pass
+	def getDMPInt3Status(self):
+		pass
+	def getDMPInt2Status(self):
+		pass
+	def getDMPInt1Status(self):
+		pass
+	def getDMPInt0Status(self):
+		pass
+
+	# INT_STATUS register (DMP functions)
+	def getIntPLLReadyStatus(self):
+		pass
+	def getIntDMPStatus(self):
+		pass
+
+	# USER_CTRL register (DMP functions)
+	def getDMPEnabled(self):
+		pass
+	def setDMPEnabled(self, enabled):
+		pass
+	def resetDMP(self):
+		pass
+
+	# BANK_SEL register
+	def setMemoryBank(self, bank, prefetchEnabled = False, userBank = False):
+		pass
+
+	# MEM_START_ADDR register
+	def setMemoryStartAddress(self, address):
+		pass
+
+	# MEM_R_W register
+	def readMemoryByte(self):
+		pass
+	def writeMemoryByte(self, data):
+		pass
+	def readMemoryBlock(self, data, dataSize, bank = 0, address = 0):
+		pass
+	def writeMemoryBlock(self, data, dataSize, bank = 0, address = 0, verify = True, useProgMem = False):
+		pass
+	def writeProgMemoryBlock(self, data, dataSize, bank = 0, address = 0, verify = True):
+		pass
+
+	def writeDMPConfigurationSet(self, data, dataSize, useProgMem = False):
+		pass
+	def writeProgDMPConfigurationSet(self, data, dataSize):
+		pass
+
+	# DMP_CFG_1 register
+	def getDMPConfig1(self):
+		pass
+	def setDMPConfig1(self, config):
+		pass
+
+	# DMP_CFG_2 register
+	def getDMPConfig2(self):
+		pass
+	def setDMPConfig2(self, config):
+		pass
+
+	## DMP functions
+	# special methods for MotionApps 2.0 implementation
+	#ifdef MPU9250_INCLUDE_DMP_MOTIONAPPS20
+	#def *dmpPacketBuffer;
+	#def dmpPacketSize;
+
+	#def dmpInitialize(self):
+	#	pass
+	#def dmpPacketAvailable(self):
+	#	pass
+
+	#def dmpSetFIFORate(self, fifoRate):
+	#	pass
+	#def dmpGetFIFORate(self):
+	#	pass
+	#def dmpGetSampleStepSizeMS(self):
+	#	pass
+	#def dmpGetSampleFrequency(self):
+	#	pass
+	#def dmpDecodeTemperature(self, tempReg):
+	#	pass
+
+	## Register callbacks after a packet of FIFO data is processed
+	##dmpRegisterFIFORateProcess(inv_obj_func func, priority):
+	#	pass
+	##dmpUnregisterFIFORateProcess(inv_obj_func func):
+	#	pass
+	#def dmpRunFIFORateProcesses(self):
+	#	pass
+
+	## Setup FIFO for various output
+	#def dmpSendQuaternion(self, accuracy):
+	#	pass
+	#def dmpSendGyro(self, elements, accuracy):
+	#	pass
+	#def dmpSendAccel(self, elements, accuracy):
+	#	pass
+	#def dmpSendLinearAccel(self, elements, accuracy):
+	#	pass
+	#def dmpSendLinearAccelInWorld(self, elements, accuracy):
+	#	pass
+	#def dmpSendControlData(self, elements, accuracy):
+	#	pass
+	#def dmpSendSensorData(self, elements, accuracy):
+	#	pass
+	#def dmpSendExternalSensorData(self, elements, accuracy):
+	#	pass
+	#def dmpSendGravity(self, elements, accuracy):
+	#	pass
+	#def dmpSendPacketNumber(self, accuracy):
+	#	pass
+	#def dmpSendQuantizedAccel(self, elements, accuracy):
+	#	pass
+	#def dmpSendEIS(self, elements, accuracy):
+	#	pass
+
+	## Get Fixed Point data from FIFO
+	#def dmpGetAccel(self, data, packet = 0):
+	#	pass
+	#def dmpGetAccel(self, data, packet = 0):
+	#	pass
+	#def dmpGetAccel(self, v, packet = 0):
+	#	pass
+	#def dmpGetQuaternion(self, data, packet = 0):
+	#	pass
+	#def dmpGetQuaternion(self, data, packet = 0):
+	#	pass
+	#def dmpGetQuaternion(self, q, packet = 0):
+	#	pass
+	#def dmpGet6AxisQuaternion(self, data, packet = 0):
+	#	pass
+	#def dmpGet6AxisQuaternion(self, data, packet = 0):
+	#	pass
+	#def dmpGet6AxisQuaternion(self, q, packet = 0):
+	#	pass
+	#def dmpGetRelativeQuaternion(self, data, packet = 0):
+	#	pass
+	#def dmpGetRelativeQuaternion(self, data, packet = 0):
+	#	pass
+	#def dmpGetRelativeQuaternion(self, data, packet = 0):
+	#	pass
+	#def dmpGetGyro(self, data, packet = 0):
+	#	pass
+	#def dmpGetGyro(self, data, packet = 0):
+	#	pass
+	#def dmpGetGyro(self, v, packet = 0):
+	#	pass
+	#def dmpSetLinearAccelFilterCoefficient(self, coef):
+	#	pass
+	#def dmpGetLinearAccel(self, data, packet = 0):
+	#	pass
+	#def dmpGetLinearAccel(self, data, packet = 0):
+	#	pass
+	#def dmpGetLinearAccel(self, v, packet = 0):
+	#	pass
+	#def dmpGetLinearAccel(self, v, vRaw, gravity):
+	#	pass
+	#def dmpGetLinearAccelInWorld(self, data, packet = 0):
+	#	pass
+	#def dmpGetLinearAccelInWorld(self, data, packet = 0):
+	#	pass
+	#def dmpGetLinearAccelInWorld(self, v, packet = 0):
+	#	pass
+	#def dmpGetLinearAccelInWorld(self, v, vReal, q):
+	#	pass
+	#def dmpGetGyroAndAccelSensor(self, data, packet = 0):
+	#	pass
+	#def dmpGetGyroAndAccelSensor(self, data, packet = 0):
+	#	pass
+	#def dmpGetGyroAndAccelSensor(self, g, a, packet = 0):
+	#	pass
+	#def dmpGetGyroSensor(self, data, packet = 0):
+	#	pass
+	#def dmpGetGyroSensor(self, data, packet = 0):
+	#	pass
+	#def dmpGetGyroSensor(self, v, packet = 0):
+	#	pass
+	#def dmpGetControlData(self, data, packet = 0):
+	#	pass
+	#def dmpGetTemperature(self, data, packet = 0):
+	#	pass
+	#def dmpGetGravity(self, data, packet = 0):
+	#	pass
+	#def dmpGetGravity(self, data, packet = 0):
+	#	pass
+	#def dmpGetGravity(self, v, packet = 0):
+	#	pass
+	#def dmpGetGravity(self, v, q):
+	#	pass
+	#def dmpGetUnquantizedAccel(self, data, packet = 0):
+	#	pass
+	#def dmpGetUnquantizedAccel(self, data, packet = 0):
+	#	pass
+	#def dmpGetUnquantizedAccel(self, v, packet = 0):
+	#	pass
+	#def dmpGetQuantizedAccel(self, data, packet = 0):
+	#	pass
+	#def dmpGetQuantizedAccel(self, data, packet = 0):
+	#	pass
+	#def dmpGetQuantizedAccel(self, v, packet = 0):
+	#	pass
+	#def dmpGetExternalSensorData(self, data, size, packet = 0):
+	#	pass
+	#def dmpGetEIS(self, data, packet = 0):
+	#	pass
+
+	#def dmpGetEuler(self, data, q):
+	#	pass
+	#def dmpGetYawPitchRoll(self, data, q, gravity):
+	#	pass
+
+	## Get Floating Point data from FIFO
+	#def dmpGetAccelFloat(self, data, packet = 0):
+	#	pass
+	#def dmpGetQuaternionFloat(self, data, packet = 0):
+	#	pass
+
+	#def dmpProcessFIFOPacket(self, dmpData):
+	#	pass
+	#def dmpReadAndProcessFIFOPacket(self, numPackets, processed = NULL):
+	#	pass
+
+	#def dmpSetFIFOProcessedCallback(self, void (*func) (void)):
+	#	pass
+
+	#def dmpInitFIFOParam(self):
+	#	pass
+	#def dmpCloseFIFO(self):
+	#	pass
+	#def dmpSetGyroDataSource(self, source):
+	#	pass
+	#def dmpDecodeQuantizedAccel(self):
+	#	pass
+	#def dmpGetGyroSumOfSquare(self):
+	#	pass
+	#def dmpGetAccelSumOfSquare(self):
+	#	pass
+	#def dmpOverrideQuaternion(self, q):
+	#	pass
+	#def dmpGetFIFOPacketSize(self):
+	#	pass
+	#endif
+
+	# special methods for MotionApps 4.1 implementation
+	#ifdef MPU9250_INCLUDE_DMP_MOTIONAPPS41
+    #def dmpInitialize(self):
+    #	pass
+    #def dmpPacketAvailable(self):
+    #	pass
+
+    #def dmpSetFIFORate(self, fifoRate):
+    #	pass
+    #def dmpGetFIFORate(self):
+    #	pass
+    #def dmpGetSampleStepSizeMS(self):
+    #	pass
+    #def dmpGetSampleFrequency(self):
+    #	pass
+    #def dmpDecodeTemperature(self, tempReg):
+    #	pass
+
+    ## Register callbacks after a packet of FIFO data is processed
+    ##dmpRegisterFIFORateProcess(inv_obj_func func, priority):
+    #	pass
+    ##dmpUnregisterFIFORateProcess(inv_obj_func func):
+    #	pass
+    #def dmpRunFIFORateProcesses(self):
+    #	pass
+
+    ## Setup FIFO for various output
+    #def dmpSendQuaternion(self, accuracy):
+    #	pass
+    #def dmpSendGyro(self, elements, accuracy):
+    #	pass
+    #def dmpSendAccel(self, elements, accuracy):
+    #	pass
+    #def dmpSendLinearAccel(self, elements, accuracy):
+    #	pass
+    #def dmpSendLinearAccelInWorld(self, elements, accuracy):
+    #	pass
+    #def dmpSendControlData(self, elements, accuracy):
+    #	pass
+    #def dmpSendSensorData(self, elements, accuracy):
+    #	pass
+    #def dmpSendExternalSensorData(self, elements, accuracy):
+    #	pass
+    #def dmpSendGravity(self, elements, accuracy):
+    #	pass
+    #def dmpSendPacketNumber(self, accuracy):
+    #	pass
+    #def dmpSendQuantizedAccel(self, elements, accuracy):
+    #	pass
+    #def dmpSendEIS(self, elements, accuracy):
+    #	pass
+
+    ## Get Fixed Point data from FIFO
+    #def dmpGetAccel(self, data, packet = 0):
+    #	pass
+    #def dmpGetAccel(self, data, packet = 0):
+    #	pass
+    #def dmpGetAccel(self, v, packet = 0):
+    #	pass
+    #def dmpGetQuaternion(self, data, packet = 0):
+    #	pass
+    #def dmpGetQuaternion(self, data, packet = 0):
+    #	pass
+    #def dmpGetQuaternion(self, q, packet = 0):
+    #	pass
+    #def dmpGet6AxisQuaternion(self, data, packet = 0):
+    #	pass
+    #def dmpGet6AxisQuaternion(self, data, packet = 0):
+    #	pass
+    #def dmpGet6AxisQuaternion(self, q, packet = 0):
+    #	pass
+    #def dmpGetRelativeQuaternion(self, data, packet = 0):
+    #	pass
+    #def dmpGetRelativeQuaternion(self, data, packet = 0):
+    #	pass
+    #def dmpGetRelativeQuaternion(self, data, packet = 0):
+    #	pass
+    #def dmpGetGyro(self, data, packet = 0):
+    #	pass
+    #def dmpGetGyro(self, data, packet = 0):
+    #	pass
+    #def dmpGetGyro(self, v, packet = 0):
+    #	pass
+    #def dmpGetMag(self, data, packet = 0):
+    #	pass
+    #def dmpSetLinearAccelFilterCoefficient(self, coef):
+    #	pass
+    #def dmpGetLinearAccel(self, data, packet = 0):
+    #	pass
+    #def dmpGetLinearAccel(self, data, packet = 0):
+    #	pass
+    #def dmpGetLinearAccel(self, v, packet = 0):
+    #	pass
+    #def dmpGetLinearAccel(self, v, vRaw, gravity):
+    #	pass
+    #def dmpGetLinearAccelInWorld(self, data, packet = 0):
+    #	pass
+    #def dmpGetLinearAccelInWorld(self, data, packet = 0):
+    #	pass
+    #def dmpGetLinearAccelInWorld(self, v, packet = 0):
+    #	pass
+    #def dmpGetLinearAccelInWorld(self, v, vReal, q):
+    #	pass
+    #def dmpGetGyroAndAccelSensor(self, data, packet = 0):
+    #	pass
+    #def dmpGetGyroAndAccelSensor(self, data, packet = 0):
+    #	pass
+    #def dmpGetGyroAndAccelSensor(self, g, a, packet = 0):
+    #	pass
+    #def dmpGetGyroSensor(self, data, packet = 0):
+    #	pass
+    #def dmpGetGyroSensor(self, data, packet = 0):
+    #	pass
+    #def dmpGetGyroSensor(self, v, packet = 0):
+    #	pass
+    #def dmpGetControlData(self, data, packet = 0):
+    #	pass
+    #def dmpGetTemperature(self, data, packet = 0):
+    #	pass
+    #def dmpGetGravity(self, data, packet = 0):
+    #	pass
+    #def dmpGetGravity(self, data, packet = 0):
+    #	pass
+    #def dmpGetGravity(self, v, packet = 0):
+    #	pass
+    #def dmpGetGravity(self, v, q):
+    #	pass
+    #def dmpGetUnquantizedAccel(self, data, packet = 0):
+    #	pass
+    #def dmpGetUnquantizedAccel(self, data, packet = 0):
+    #	pass
+    #def dmpGetUnquantizedAccel(self, v, packet = 0):
+    #	pass
+    #def dmpGetQuantizedAccel(self, data, packet = 0):
+    #	pass
+    #def dmpGetQuantizedAccel(self, data, packet = 0):
+    #	pass
+    #def dmpGetQuantizedAccel(self, v, packet = 0):
+    #	pass
+    #def dmpGetExternalSensorData(self, data, size, packet = 0):
+    #	pass
+    #def dmpGetEIS(self, data, packet = 0):
+    #	pass
+
+    #def dmpGetEuler(self, data, q):
+    #	pass
+    #def dmpGetYawPitchRoll(self, data, q, gravity):
+    #	pass
+
+    ## Get Floating Point data from FIFO
+    #def dmpGetAccelFloat(self, data, packet = 0):
+    #	pass
+    #def dmpGetQuaternionFloat(self, data, packet = 0):
+    #	pass
+
+    #def dmpProcessFIFOPacket(self, dmpData):
+    #	pass
+    #def dmpReadAndProcessFIFOPacket(self, numPackets, processed = NULL):
+    #	pass
+
+    #def dmpSetFIFOProcessedCallback(self, void (*func) (void)):
+    #	pass
+
+    #def dmpInitFIFOParam(self):
+    #	pass
+    #def dmpCloseFIFO(self):
+    #	pass
+    #def dmpSetGyroDataSource(self, source):
+    #	pass
+    #def dmpDecodeQuantizedAccel(self):
+    #	pass
+    #def dmpGetGyroSumOfSquare(self):
+    #	pass
+    #def dmpGetAccelSumOfSquare(self):
+    #	pass
+    #def dmpOverrideQuaternion(self, q):
+    #	pass
+    #def dmpGetFIFOPacketSize(self):
+	#endif
