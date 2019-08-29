@@ -1024,7 +1024,7 @@ class MPU9250:
 	# @see MPU9250_RA_PWR_MGMT_1
 	# @see MPU9250_PWR1_DEVICE_RESET_BIT
 	def reset(self):
-		pass
+		self.__i2cWrapper.writeBit(self.__devAddr, MPU9250_RA_PWR_MGMT_1, MPU9250_PWR1_DEVICE_RESET_BIT, True);
 	# Get sleep mode status.
 	# Setting the SLEEP bit in the register puts the device into very low power
 	# sleep mode. In this mode, only the serial interface and internal registers
@@ -1036,14 +1036,14 @@ class MPU9250:
 	# @see MPU9250_RA_PWR_MGMT_1
 	# @see MPU9250_PWR1_SLEEP_BIT
 	def getSleepEnabled(self):
-		pass
+		return self.__i2cWrapper.readBits(self.__devAddr, MPU9250_RA_PWR_MGMT_1, MPU9250_PWR1_SLEEP_BIT, 1);
 	# Set sleep mode status.
 	# @param enabled New sleep mode enabled status
 	# @see getSleepEnabled()
 	# @see MPU9250_RA_PWR_MGMT_1
 	# @see MPU9250_PWR1_SLEEP_BIT
 	def setSleepEnabled(self, enabled):
-		pass
+		self.__i2cWrapper.writeBit(self.__devAddr, MPU9250_RA_PWR_MGMT_1, MPU9250_PWR1_SLEEP_BIT, enabled);
 	# Get wake cycle enabled status.
 	# When this bit is set to 1 and SLEEP is disabled, the MPU-60X0 will cycle
 	# between sleep mode and waking up to take a single sample of data from active
@@ -1052,14 +1052,14 @@ class MPU9250:
 	# @see MPU9250_RA_PWR_MGMT_1
 	# @see MPU9250_PWR1_CYCLE_BIT
 	def getWakeCycleEnabled(self):
-		pass
+		return self.__i2cWrapper.readBits(self.__devAddr, MPU9250_RA_PWR_MGMT_1, MPU9250_PWR1_CYCLE_BIT, 1);
 	# Set wake cycle enabled status.
 	# @param enabled New sleep mode enabled status
 	# @see getWakeCycleEnabled()
 	# @see MPU9250_RA_PWR_MGMT_1
 	# @see MPU9250_PWR1_CYCLE_BIT
 	def setWakeCycleEnabled(self, enabled):
-		pass
+		return self.__i2cWrapper.writeBit(self.__devAddr, MPU9250_RA_PWR_MGMT_1, MPU9250_PWR1_CYCLE_BIT, enabled);
 	# Get temperature sensor enabled status.
 	# Control the usage of the internal temperature sensor.
 	#
@@ -1071,7 +1071,7 @@ class MPU9250:
 	# @see MPU9250_RA_PWR_MGMT_1
 	# @see MPU9250_PWR1_TEMP_DIS_BIT
 	def getTempSensorEnabled(self):
-		pass
+		return self.__i2cWrapper.readBits(self.__devAddr, MPU9250_RA_PWR_MGMT_1, MPU9250_PWR1_TEMP_DIS_BIT, 1);
 	# Set temperature sensor enabled status.
 	# Note: this register stores the *disabled* value, but for consistency with the
 	# rest of the code, the function is named and used with standard true/false
@@ -1082,14 +1082,14 @@ class MPU9250:
 	# @see MPU9250_RA_PWR_MGMT_1
 	# @see MPU9250_PWR1_TEMP_DIS_BIT
 	def setTempSensorEnabled(self, enabled):
-		pass
+		self.__i2cWrapper.writeBit(self.__devAddr, MPU9250_RA_PWR_MGMT_1, MPU9250_PWR1_TEMP_DIS_BIT, !enabled);
 	# Get clock source setting.
 	# @return Current clock source setting
 	# @see MPU9250_RA_PWR_MGMT_1
 	# @see MPU9250_PWR1_CLKSEL_BIT
 	# @see MPU9250_PWR1_CLKSEL_LENGTH
 	def getClockSource(self):
-		pass
+		return self.__i2cWrapper.readBits(self.__devAddr, MPU9250_RA_PWR_MGMT_1, MPU9250_PWR1_CLKSEL_BIT, MPU9250_PWR1_CLKSEL_LENGTH);
 	# Set clock source setting.
 	# An internal 8MHz oscillator, gyroscope based clock, or external sources can
 	# be selected as the MPU-60X0 clock source. When the internal 8 MHz oscillator
@@ -1120,7 +1120,9 @@ class MPU9250:
 	# @see MPU9250_PWR1_CLKSEL_BIT
 	# @see MPU9250_PWR1_CLKSEL_LENGTH
 	def setClockSource(self, source):
-		pass
+		if len(source) != MPU9250_PWR1_CLKSEL_LENGTH:
+			raise ValueError("MPU9250_PWR1_CLKSEL_LENGTH must be " + str(MPU9250_PWR1_CLKSEL_LENGTH));
+		self.__i2cWrapper.writeBits(self.__devAddr, MPU9250_RA_PWR_MGMT_1, MPU9250_PWR1_CLKSEL_BIT, source);
 
 	## PWR_MGMT_2 register
 	def getWakeFrequency(self):
