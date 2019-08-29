@@ -662,43 +662,43 @@ class MPU9250:
 			raise ValueError("MPU9250_ACONFIG_ACCEL_HPF_LENGTH must be " + str(MPU9250_ACONFIG_ACCEL_HPF_LENGTH));
 		self.__i2cWrapper.writeBits(self.__devAddr, MPU9250_RA_ACCEL_CONFIG, MPU9250_ACONFIG_ACCEL_HPF_BIT, mode);
 
-	# FF_THR register
+	## FF_THR register
 	def getFreefallDetectionThreshold(self):
 		pass
 	def setFreefallDetectionThreshold(self, threshold):
 		pass
 
-	# FF_DUR register
+	## FF_DUR register
 	def getFreefallDetectionDuration(self):
 		pass
 	def setFreefallDetectionDuration(self, duration):
 		pass
 
-	# MOT_THR register
+	## MOT_THR register
 	def getMotionDetectionThreshold(self):
 		pass
 	def setMotionDetectionThreshold(self, threshold):
 		pass
 
-	# MOT_DUR register
+	## MOT_DUR register
 	def getMotionDetectionDuration(self):
 		pass
 	def setMotionDetectionDuration(self, duration):
 		pass
 
-	# ZRMOT_THR register
+	## ZRMOT_THR register
 	def getZeroMotionDetectionThreshold(self):
 		pass
 	def setZeroMotionDetectionThreshold(self, threshold):
 		pass
 
-	# ZRMOT_DUR register
+	## ZRMOT_DUR register
 	def getZeroMotionDetectionDuration(self):
 		pass
 	def setZeroMotionDetectionDuration(self, duration):
 		pass
 
-	# FIFO_EN register
+	## FIFO_EN register
 	def getTempFIFOEnabled(self):
 		pass
 	def setTempFIFOEnabled(self, enabled):
@@ -732,7 +732,7 @@ class MPU9250:
 	def setSlave0FIFOEnabled(self, enabled):
 		pass
 
-	# I2C_MST_CTRL register
+	## I2C_MST_CTRL register
 	def getMultiMasterEnabled(self):
 		pass
 	def setMultiMasterEnabled(self, enabled):
@@ -754,7 +754,7 @@ class MPU9250:
 	def setMasterClockSpeed(self, speed):
 		pass
 
-	# I2C_SLV* registers (Slave 0-3)
+	## I2C_SLV* registers (Slave 0-3)
 	def getSlaveAddress(self, num):
 		pass
 	def setSlaveAddress(self, num, address):
@@ -784,7 +784,7 @@ class MPU9250:
 	def setSlaveDataLength(self, num, length):
 		pass
 
-	# I2C_SLV* registers (Slave 4)
+	## I2C_SLV* registers (Slave 4)
 	def getSlave4Address(self):
 		pass
 	def setSlave4Address(self, address):
@@ -814,7 +814,7 @@ class MPU9250:
 	def getSlate4InputByte(self):
 		pass
 
-	# I2C_MST_STATUS register
+	## I2C_MST_STATUS register
 	def getPassthroughStatus(self):
 		pass
 	def getSlave4IsDone(self):
@@ -832,7 +832,7 @@ class MPU9250:
 	def getSlave0Nack(self):
 		pass
 
-	# INT_PIN_CFG register
+	## INT_PIN_CFG register
 	def getInterruptMode(self):
 		pass
 	def setInterruptMode(self, mode):
@@ -866,7 +866,7 @@ class MPU9250:
 	def setClockOutputEnabled(self, enabled):
 		pass
 
-	# INT_ENABLE register
+	## INT_ENABLE register
 	def getIntEnabled(self):
 		pass
 	def setIntEnabled(self, enabled):
@@ -896,7 +896,7 @@ class MPU9250:
 	def setIntDataReadyEnabled(self, enabled):
 		pass
 
-	# INT_STATUS register
+	## INT_STATUS register
 	def getIntStatus(self):
 		pass
 	def getIntFreefallStatus(self):
@@ -912,7 +912,7 @@ class MPU9250:
 	def getIntDataReadyStatus(self):
 		pass
 
-	# ACCEL_*OUT_* registers
+	## ACCEL_*OUT_* registers
 	def getMotion9(self, ax, ay, az, gx, gy, gz, mx, my, mz):
 		pass
 	def getMotion6(self, ax, ay, az, gx, gy, gz):
@@ -926,11 +926,11 @@ class MPU9250:
 	def getAccelerationZ(self):
 		pass
 
-	# TEMP_OUT_* registers
+	## TEMP_OUT_* registers
 	def getTemperature(self):
 		pass
 
-	# GYRO_*OUT_* registers
+	## GYRO_*OUT_* registers
 	def getRotation(self, x, y, z):
 		pass
 	def getRotationX(self):
@@ -940,7 +940,7 @@ class MPU9250:
 	def getRotationZ(self):
 		pass
 
-	# EXT_SENS_DATA_* registers
+	## EXT_SENS_DATA_* registers
 	def getExternalSensorByte(self, position):
 		pass
 	def getExternalSensorWord(self, position):
@@ -948,7 +948,7 @@ class MPU9250:
 	def getExternalSensorDWord(self, position):
 		pass
 
-	# MOT_DETECT_STATUS register
+	## MOT_DETECT_STATUS register
 	def getXNegMotionDetected(self):
 		pass
 	def getXPosMotionDetected(self):
@@ -964,11 +964,11 @@ class MPU9250:
 	def getZeroMotionDetected(self):
 		pass
 
-	# I2C_SLV*_DO register
+	## I2C_SLV*_DO register
 	def setSlaveOutputByte(self, num, data):
 		pass
 
-	# I2C_MST_DELAY_CTRL register
+	## I2C_MST_DELAY_CTRL register
 	def getExternalShadowDelayEnabled(self):
 		pass
 	def setExternalShadowDelayEnabled(self, enabled):
@@ -978,7 +978,7 @@ class MPU9250:
 	def setSlaveDelayEnabled(self, num, enabled):
 		pass
 
-	# SIGNAL_PATH_RESET register
+	## SIGNAL_PATH_RESET register
 	def resetGyroscopePath(self):
 		pass
 	def resetAccelerometerPath(self):
@@ -986,7 +986,7 @@ class MPU9250:
 	def resetTemperaturePath(self):
 		pass
 
-	# MOT_DETECT_CTRL register
+	## MOT_DETECT_CTRL register
 	def getAccelerometerPowerOnDelay(self):
 		pass
 	def setAccelerometerPowerOnDelay(self, delay):
@@ -1000,7 +1000,7 @@ class MPU9250:
 	def setMotionDetectionCounterDecrement(self, decrement):
 		pass
 
-	# USER_CTRL register
+	## USER_CTRL register
 	def getFIFOEnabled(self):
 		pass
 	def setFIFOEnabled(self, enabled):
@@ -1018,7 +1018,7 @@ class MPU9250:
 	def resetSensors(self):
 		pass
 
-	# PWR_MGMT_1 register
+	## PWR_MGMT_1 register
 	def reset(self):
 		pass
 	def getSleepEnabled(self):
@@ -1038,7 +1038,7 @@ class MPU9250:
 	def setClockSource(self, source):
 		pass
 
-	# PWR_MGMT_2 register
+	## PWR_MGMT_2 register
 	def getWakeFrequency(self):
 		pass
 	def setWakeFrequency(self, frequency):
@@ -1068,11 +1068,11 @@ class MPU9250:
 	def setStandbyZGyroEnabled(self, enabled):
 		pass
 
-	# FIFO_COUNT_* registers
+	## FIFO_COUNT_* registers
 	def getFIFOCount(self):
 		pass
 
-	# FIFO_R_W register
+	## FIFO_R_W register
 	def getFIFOByte(self):
 		pass
 	def setFIFOByte(self, data):
@@ -1080,15 +1080,15 @@ class MPU9250:
 	def getFIFOBytes(self, data, length):
 		pass
 
-	# WHO_AM_I register
+	## WHO_AM_I register
 	def getDeviceID(self):
 		pass
 	def setDeviceID(self, id):
 		pass
 
-	# ======== UNDOCUMENTED/DMP REGISTERS/METHODS ========
+	## ======== UNDOCUMENTED/DMP REGISTERS/METHODS ========
 
-	# XG_OFFS_TC register
+	## XG_OFFS_TC register
 	def getOTPBankValid(self):
 		pass
 	def setOTPBankValid(self, enabled):
@@ -1098,73 +1098,73 @@ class MPU9250:
 	def setXGyroOffset(self, offset):
 		pass
 
-	# YG_OFFS_TC register
+	## YG_OFFS_TC register
 	def getYGyroOffset(self):
 		pass
 	def setYGyroOffset(self, offset):
 		pass
 
-	# ZG_OFFS_TC register
+	## ZG_OFFS_TC register
 	def getZGyroOffset(self):
 		pass
 	def setZGyroOffset(self, offset):
 		pass
 
-	# X_FINE_GAIN register
+	## X_FINE_GAIN register
 	def getXFineGain(self):
 		pass
 	def setXFineGain(self, gain):
 		pass
 
-	# Y_FINE_GAIN register
+	## Y_FINE_GAIN register
 	def getYFineGain(self):
 		pass
 	def setYFineGain(self, gain):
 		pass
 
-	# Z_FINE_GAIN register
+	## Z_FINE_GAIN register
 	def getZFineGain(self):
 		pass
 	def setZFineGain(self, gain):
 		pass
 
-	# XA_OFFS_* registers
+	## XA_OFFS_* registers
 	def getXAccelOffset(self):
 		pass
 	def setXAccelOffset(self, offset):
 		pass
 
-	# YA_OFFS_* register
+	## YA_OFFS_* register
 	def getYAccelOffset(self):
 		pass
 	def setYAccelOffset(self, offset):
 		pass
 
-	# ZA_OFFS_* register
+	## ZA_OFFS_* register
 	def getZAccelOffset(self):
 		pass
 	def setZAccelOffset(self, offset):
 		pass
 
-	# XG_OFFS_USR* registers
+	## XG_OFFS_USR* registers
 	def getXGyroOffsetUser(self):
 		pass
 	def setXGyroOffsetUser(self, offset):
 		pass
 
-	# YG_OFFS_USR* register
+	## YG_OFFS_USR* register
 	def getYGyroOffsetUser(self):
 		pass
 	def setYGyroOffsetUser(self, offset):
 		pass
 
-	# ZG_OFFS_USR* register
+	## ZG_OFFS_USR* register
 	def getZGyroOffsetUser(self):
 		pass
 	def setZGyroOffsetUser(self, offset):
 		pass
 
-	# INT_ENABLE register (DMP functions)
+	## INT_ENABLE register (DMP functions)
 	def getIntPLLReadyEnabled(self):
 		pass
 	def setIntPLLReadyEnabled(self, enabled):
@@ -1174,7 +1174,7 @@ class MPU9250:
 	def setIntDMPEnabled(self, enabled):
 		pass
 
-	# DMP_INT_STATUS
+	## DMP_INT_STATUS
 	def getDMPInt5Status(self):
 		pass
 	def getDMPInt4Status(self):
@@ -1188,13 +1188,13 @@ class MPU9250:
 	def getDMPInt0Status(self):
 		pass
 
-	# INT_STATUS register (DMP functions)
+	## INT_STATUS register (DMP functions)
 	def getIntPLLReadyStatus(self):
 		pass
 	def getIntDMPStatus(self):
 		pass
 
-	# USER_CTRL register (DMP functions)
+	## USER_CTRL register (DMP functions)
 	def getDMPEnabled(self):
 		pass
 	def setDMPEnabled(self, enabled):
@@ -1202,15 +1202,15 @@ class MPU9250:
 	def resetDMP(self):
 		pass
 
-	# BANK_SEL register
+	## BANK_SEL register
 	def setMemoryBank(self, bank, prefetchEnabled = False, userBank = False):
 		pass
 
-	# MEM_START_ADDR register
+	## MEM_START_ADDR register
 	def setMemoryStartAddress(self, address):
 		pass
 
-	# MEM_R_W register
+	## MEM_R_W register
 	def readMemoryByte(self):
 		pass
 	def writeMemoryByte(self, data):
@@ -1227,13 +1227,13 @@ class MPU9250:
 	def writeProgDMPConfigurationSet(self, data, dataSize):
 		pass
 
-	# DMP_CFG_1 register
+	## DMP_CFG_1 register
 	def getDMPConfig1(self):
 		pass
 	def setDMPConfig1(self, config):
 		pass
 
-	# DMP_CFG_2 register
+	## DMP_CFG_2 register
 	def getDMPConfig2(self):
 		pass
 	def setDMPConfig2(self, config):
