@@ -926,9 +926,9 @@ class MPU9250:
 
 		#read mag
 		self.__i2cWrapper.writeByte(self.__devAddr, MPU9250_RA_INT_PIN_CFG, 0x02); #set i2c bypass enable pin to True to access magnetometer
-		delay(10);
+		self.__i2cWrapper.delay(10);
 		self.__i2cWrapper.writeByte(MPU9150_RA_MAG_ADDRESS, 0x0A, 0x01); #enable the magnetometer
-		delay(10);
+		self.__i2cWrapper.delay(10);
 		mag = self.__i2cWrapper.readBytes(MPU9150_RA_MAG_ADDRESS, MPU9150_RA_MAG_XOUT_L, 6);
 		accgyr.append((mag[1] << 8) | mag[0]);
 		accgyr.append((mag[3] << 8) | mag[2]);

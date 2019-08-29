@@ -53,4 +53,8 @@ class I2CWrapper(metaclass=ABCMeta):
 	# @return success
 	@abstractmethod
 	def writeBytes(device, addr, bytes):
+
+	# @param ms millisecond to delay
+	@abstractmethod
+	def delay(self, ms):
 		pass

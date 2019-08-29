@@ -1,6 +1,7 @@
 from OmegaExpansion import onionI2C
 from I2CWrapper import I2CWrapper
 from math import ceil
+from time import sleep
 
 class Omega2I2CWrapper(I2CWrapper):
 	def __init__(self, optimize = False):
@@ -39,4 +40,6 @@ class Omega2I2CWrapper(I2CWrapper):
 		return self.i2c.writeByte(device, addr, byte);
 
 	def writeBytes(device, addr, bytes):
-		return self.i2c.writeBytes(device, addr, bytes);
+
+	def delay(self, ms):
+		sleep(ms/1000.0);
