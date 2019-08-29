@@ -397,7 +397,7 @@ class MPU9250:
 	# Make sure the device is connected and responds as expected.
 	# @return True if connection is valid, False otherwise
 	def testConnection(self):
-		return self.getDeviceID() == 0x71;
+		return self.getDeviceID() == [0, 1, 1, 1, 0, 0, 0, 1];
 
 	## AUX_VDDIO register
 	# Get the auxiliary I2C supply voltage level.
