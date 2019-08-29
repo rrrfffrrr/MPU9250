@@ -1018,18 +1018,77 @@ class MPU9250:
 		return (zacc[0] << 8) | zacc[1];
 
 	## TEMP_OUT_* registers
+	# Get current internal temperature.
+	# @return Temperature reading in 16-bit 2's complement format
+	# @see MPU9250_RA_TEMP_OUT_H
 	def getTemperature(self):
-		pass
+		tmp = self.__i2cWrapper.readBytes(self.__devAddr, MPU9250_RA_TEMP_OUT_H, 2);
+		return (tmp[0] << 8) | tmp[1];
 
 	## GYRO_*OUT_* registers
-	def getRotation(self, x, y, z):
-		pass
+	# Get 3-axis gyroscope readings.
+	# These gyroscope measurement registers, along with the accelerometer
+	# measurement registers, temperature measurement registers, and external sensor
+	# data registers, are composed of two sets of registers: an internal register
+	# set and a user-facing read register set.
+	# The data within the gyroscope sensors' internal register set is always
+	# updated at the Sample Rate. Meanwhile, the user-facing read register set
+	# duplicates the internal register set's data values whenever the serial
+	# interface is idle. This guarantees that a burst read of sensor registers will
+	# read measurements from the same sampling instant. Note that if burst reads
+	# are not used, the user is responsible for ensuring a set of single byte reads
+	# correspond to a single sampling instant by checking the Data Ready interrupt.
+	#
+	# Each 16-bit gyroscope measurement has a full scale defined in FS_SEL
+	# (Register 27). For each full scale setting, the gyroscopes' sensitivity per
+	# LSB in GYRO_xOUT is shown in the table below:
+	#
+	# <pre>
+	# FS_SEL | Full Scale Range   | LSB Sensitivity
+	# -------+--------------------+----------------
+	# 0      | +/- 250 degrees/s  | 131 LSB/deg/s
+	# 1      | +/- 500 degrees/s  | 65.5 LSB/deg/s
+	# 2      | +/- 1000 degrees/s | 32.8 LSB/deg/s
+	# 3      | +/- 2000 degrees/s | 16.4 LSB/deg/s
+	# </pre>
+	#
+	# @param x 16-bit signed integer container for X-axis rotation
+	# @param y 16-bit signed integer container for Y-axis rotation
+	# @param z 16-bit signed integer container for Z-axis rotation
+	# @see getMotion6()
+	# @see MPU9250_RA_GYRO_XOUT_H
+	# @return [x, y, z]
+	def getRotation(self):
+		brtt = self.__i2cWrapper.readBytes(self.__devAddr, MPU9250_RA_GYRO_XOUT_H, 6);
+		rtt = [];
+		rtt.append((rtt[0] << 8) | rtt[1]);
+		rtt.append((rtt[2] << 8) | rtt[3]);
+		rtt.append((rtt[4] << 8) | rtt[5]);
+		return rtt;
+
+	# Get X-axis gyroscope reading.
+	# @return X-axis rotation measurement in 16-bit 2's complement format
+	# @see getMotion6()
+	# @see MPU9250_RA_GYRO_XOUT_H
 	def getRotationX(self):
-		pass
+		rtt = self.__i2cWrapper.readBytes(self.__devAddr, MPU9250_RA_GYRO_XOUT_H, 2);
+		return (rtt[0] << 8) | rtt[1];
+
+	# Get Y-axis gyroscope reading.
+	# @return Y-axis rotation measurement in 16-bit 2's complement format
+	# @see getMotion6()
+	# @see MPU9250_RA_GYRO_YOUT_H
 	def getRotationY(self):
-		pass
+		rtt = self.__i2cWrapper.readBytes(self.__devAddr, MPU9250_RA_GYRO_YOUT_H, 2);
+		return (rtt[0] << 8) | rtt[1];
+
+	# Get Z-axis gyroscope reading.
+	# @return Z-axis rotation measurement in 16-bit 2's complement format
+	# @see getMotion6()
+	# @see MPU9250_RA_GYRO_ZOUT_H
 	def getRotationZ(self):
-		pass
+		rtt = self.__i2cWrapper.readBytes(self.__devAddr, MPU9250_RA_GYRO_ZOUT_H, 2);
+		return (rtt[0] << 8) | rtt[1];
 
 	## EXT_SENS_DATA_* registers
 	def getExternalSensorByte(self, position):
