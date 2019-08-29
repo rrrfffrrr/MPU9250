@@ -4,24 +4,16 @@ from math import ceil
 from time import sleep
 
 class Omega2I2CWrapper(I2CWrapper):
-	def __init__(self, optimize = False):
+	def __init__(self):
 		super().__init__();
 		self.i2c = onionI2C.OnionI2C();
-		self.optimize = optimize;
 
 	def readBits(self, device, addr, offset, size):
 		values = self.i2c.readBytes(device, addr, ceil(size/8));
 		bits = []
 		for e in values:
 			bits.extend(bin(e)[2:].zfill(8));
-		bits = list(map(int, bits));
-
-		for i in range(offset):
-			del bits[0];
-		if self.optimize != True:
-			for i in range(max(len(bits) - size, 0)):
-				del bits[len(bits) - 1];
-		return bits
+		return list(map(int, bits))[offset:offset+size];
 
 	def readBytes(self, device, addr, size):
 		return self.i2c.readBytes(device, addr, size);
