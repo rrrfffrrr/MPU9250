@@ -932,7 +932,7 @@ class MPU9250:
 	# @return [ax, ay, az, gx, gy, gz, mx, my, mz]
 	def getMotion9(self):
 		#get accel and gyro
-		accgyr = getMotion6();
+		accgyr = self.getMotion6();
 
 		#read mag
 		self.__i2cWrapper.writeByte(self.__devAddr, MPU9250_RA_INT_PIN_CFG, 0x02); #set i2c bypass enable pin to True to access magnetometer
