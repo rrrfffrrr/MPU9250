@@ -608,7 +608,7 @@ class MPU9250:
 	# @see MPU9250_ACONFIG_AFS_SEL_BIT
 	# @see MPU9250_ACONFIG_AFS_SEL_LENGTH
 	def getFullScaleAccelRange(self):
-    	return self.__i2cWrapper.readBits(self.__devAddr, MPU9250_RA_ACCEL_CONFIG, MPU9250_ACONFIG_AFS_SEL_BIT, MPU9250_ACONFIG_AFS_SEL_LENGTH);
+		return self.__i2cWrapper.readBits(self.__devAddr, MPU9250_RA_ACCEL_CONFIG, MPU9250_ACONFIG_AFS_SEL_BIT, MPU9250_ACONFIG_AFS_SEL_LENGTH);
 	# Set full-scale accelerometer range.
 	# @param range New full-scale accelerometer range setting
 	# @see getFullScaleAccelRange()
@@ -651,7 +651,7 @@ class MPU9250:
 	# @see MPU9250_DHPF_RESET
 	# @see MPU9250_RA_ACCEL_CONFIG
 	def getDHPFMode(self):
-    	return self.__i2cWrapper.readBits(self.__devAddr, MPU9250_RA_ACCEL_CONFIG, MPU9250_ACONFIG_ACCEL_HPF_BIT, MPU9250_ACONFIG_ACCEL_HPF_LENGTH);
+		return self.__i2cWrapper.readBits(self.__devAddr, MPU9250_RA_ACCEL_CONFIG, MPU9250_ACONFIG_ACCEL_HPF_BIT, MPU9250_ACONFIG_ACCEL_HPF_LENGTH);
 	# Set the high-pass filter configuration.
 	# @param bandwidth New high-pass filter configuration
 	# @see setDHPFMode()
