@@ -482,7 +482,9 @@ class MPU9250:
 	# @see MPU9250_RA_CONFIG
 	# @param sync New FSYNC configuration value
 	def setExternalFrameSync(self, sync):
-		if len(sync) != MPU9250_CFG_EXT_SYNC_SET_LENGTH:
+		if type(sync) == int:
+			sync = list(map(int, bin(sync)[2:].zfill(MPU9250_CFG_EXT_SYNC_SET_LENGTH)))[0:MPU9250_CFG_EXT_SYNC_SET_LENGTH];
+		elif len(sync) != MPU9250_CFG_EXT_SYNC_SET_LENGTH:
 			raise ValueError("MPU9250_CFG_EXT_SYNC_SET_LENGTH must be " + str(MPU9250_CFG_EXT_SYNC_SET_LENGTH));
 		self.__i2cWrapper.writeBits(self.__devAddr, MPU9250_RA_CONFIG, MPU9250_CFG_EXT_SYNC_SET_BIT, sync);
 
@@ -524,7 +526,9 @@ class MPU9250:
 	# @see MPU9250_CFG_DLPF_CFG_BIT
 	# @see MPU9250_CFG_DLPF_CFG_LENGTH
 	def setDLPFMode(self, bandwidth):
-		if len(bandwidth) != MPU9250_CFG_DLPF_CFG_LENGTH:
+		if type(bandwidth) == int:
+			bandwidth = list(map(int, bin(bandwidth)[2:].zfill(MPU9250_CFG_DLPF_CFG_LENGTH)))[0:MPU9250_CFG_DLPF_CFG_LENGTH];
+		elif len(bandwidth) != MPU9250_CFG_DLPF_CFG_LENGTH:
 			raise ValueError("MPU9250_CFG_DLPF_CFG_LENGTH must be " + str(MPU9250_CFG_DLPF_CFG_LENGTH));
 		self.__i2cWrapper.writeBits(self.__devAddr, MPU9250_RA_CONFIG, MPU9250_CFG_DLPF_CFG_BIT, sync);
 
@@ -556,7 +560,9 @@ class MPU9250:
 	# @see MPU9250_GCONFIG_FS_SEL_BIT
 	# @see MPU9250_GCONFIG_FS_SEL_LENGTH
 	def setFullScaleGyroRange(self, range):
-		if len(range) != MPU9250_GCONFIG_FS_SEL_LENGTH:
+		if type(range) == int:
+			range = list(map(int, bin(range)[2:].zfill(MPU9250_GCONFIG_FS_SEL_LENGTH)))[0:MPU9250_GCONFIG_FS_SEL_LENGTH];
+		elif len(range) != MPU9250_GCONFIG_FS_SEL_LENGTH:
 			raise ValueError("MPU9250_GCONFIG_FS_SEL_LENGTH must be " + str(MPU9250_GCONFIG_FS_SEL_LENGTH));
 		self.__i2cWrapper.writeBits(self.__devAddr, MPU9250_RA_GYRO_CONFIG, MPU9250_GCONFIG_FS_SEL_BIT, range);
 
@@ -613,7 +619,9 @@ class MPU9250:
 	# @param range New full-scale accelerometer range setting
 	# @see getFullScaleAccelRange()
 	def setFullScaleAccelRange(self, range):
-		if len(range) != MPU9250_ACONFIG_AFS_SEL_LENGTH:
+		if type(range) == int:
+			range = list(map(int, bin(range)[2:].zfill(MPU9250_ACONFIG_AFS_SEL_LENGTH)))[0:MPU9250_ACONFIG_AFS_SEL_LENGTH];
+		elif len(range) != MPU9250_ACONFIG_AFS_SEL_LENGTH:
 			raise ValueError("MPU9250_ACONFIG_AFS_SEL_LENGTH must be " + str(MPU9250_ACONFIG_AFS_SEL_LENGTH));
 		self.__i2cWrapper.writeBits(self.__devAddr, MPU9250_RA_ACCEL_CONFIG, MPU9250_ACONFIG_AFS_SEL_BIT, range);
 	# Get the high-pass filter configuration.
@@ -658,7 +666,9 @@ class MPU9250:
 	# @see MPU9250_DHPF_RESET
 	# @see MPU9250_RA_ACCEL_CONFIG
 	def setDHPFMode(self, mode):
-		if len(mode) != MPU9250_ACONFIG_ACCEL_HPF_LENGTH:
+		if type(mode) == int:
+			mode = list(map(int, bin(mode)[2:].zfill(MPU9250_ACONFIG_ACCEL_HPF_LENGTH)))[0:MPU9250_ACONFIG_ACCEL_HPF_LENGTH];
+		elif len(mode) != MPU9250_ACONFIG_ACCEL_HPF_LENGTH:
 			raise ValueError("MPU9250_ACONFIG_ACCEL_HPF_LENGTH must be " + str(MPU9250_ACONFIG_ACCEL_HPF_LENGTH));
 		self.__i2cWrapper.writeBits(self.__devAddr, MPU9250_RA_ACCEL_CONFIG, MPU9250_ACONFIG_ACCEL_HPF_BIT, mode);
 
@@ -1270,7 +1280,9 @@ class MPU9250:
 	# @see MPU9250_PWR1_CLKSEL_BIT
 	# @see MPU9250_PWR1_CLKSEL_LENGTH
 	def setClockSource(self, source):
-		if len(source) != MPU9250_PWR1_CLKSEL_LENGTH:
+		if type(source) == int:
+			source = list(map(int, bin(source)[2:].zfill(MPU9250_PWR1_CLKSEL_LENGTH)))[0:MPU9250_PWR1_CLKSEL_LENGTH];
+		elif len(source) != MPU9250_PWR1_CLKSEL_LENGTH:
 			raise ValueError("MPU9250_PWR1_CLKSEL_LENGTH must be " + str(MPU9250_PWR1_CLKSEL_LENGTH));
 		self.__i2cWrapper.writeBits(self.__devAddr, MPU9250_RA_PWR_MGMT_1, MPU9250_PWR1_CLKSEL_BIT, source);
 
@@ -1334,7 +1346,9 @@ class MPU9250:
 	# @see MPU9250_WHO_AM_I_BIT
 	# @see MPU9250_WHO_AM_I_LENGTH
 	def setDeviceID(self, id):
-		if len(id) != MPU9250_WHO_AM_I_LENGTH:
+		if type(id) == int:
+			id = list(map(int, bin(id)[2:].zfill(MPU9250_WHO_AM_I_LENGTH)))[0:MPU9250_WHO_AM_I_LENGTH];
+		elif len(id) != MPU9250_WHO_AM_I_LENGTH:
 			raise ValueError("MPU9250_WHO_AM_I_LENGTH must be " + str(MPU9250_WHO_AM_I_LENGTH));
 		self.__i2cWrapper.writeBits(self.__devAddr, MPU9250_RA_WHO_AM_I, MPU9250_WHO_AM_I_BIT, id);
 
