@@ -1167,10 +1167,26 @@ class MPU9250:
 		pass
 
 	## WHO_AM_I register
+	# Get Device ID.
+	# This register is used to verify the identity of the device (0b110100, 0x34).
+	# @return Device ID (6 bits only! should be 0x34)
+	# @see MPU9250_RA_WHO_AM_I
+	# @see MPU9250_WHO_AM_I_BIT
+	# @see MPU9250_WHO_AM_I_LENGTH
 	def getDeviceID(self):
-		pass
+		return self.__i2cWrapper.readBits(self.__devAddr, MPU9250_RA_WHO_AM_I, MPU9250_WHO_AM_I_BIT, MPU9250_WHO_AM_I_LENGTH);
+	# Set Device ID.
+	# Write a new ID into the WHO_AM_I register (no idea why this should ever be
+	# necessary though).
+	# @param id New device ID to set.
+	# @see getDeviceID()
+	# @see MPU9250_RA_WHO_AM_I
+	# @see MPU9250_WHO_AM_I_BIT
+	# @see MPU9250_WHO_AM_I_LENGTH
 	def setDeviceID(self, id):
-		pass
+		if len(id) != MPU9250_WHO_AM_I_LENGTH:
+			raise ValueError("MPU9250_WHO_AM_I_LENGTH must be " + str(MPU9250_WHO_AM_I_LENGTH));
+		self.__i2cWrapper.writeBits(self.__devAddr, MPU9250_RA_WHO_AM_I, MPU9250_WHO_AM_I_BIT, id);
 
 	## ======== UNDOCUMENTED/DMP REGISTERS/METHODS ========
 
