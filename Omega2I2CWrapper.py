@@ -9,7 +9,7 @@ class Omega2I2CWrapper(I2CWrapper):
 		self.i2c = onionI2C.OnionI2C();
 		self.optimize = optimize;
 
-	def readBits(device, addr, offset, size):
+	def readBits(self, device, addr, offset, size):
 		values = self.i2c.readBytes(device, addr, ceil(size/8));
 		bits = []
 		for e in values:
@@ -23,23 +23,24 @@ class Omega2I2CWrapper(I2CWrapper):
 				del bits[len(bits) - 1];
 		return bits
 
-	def readBytes(device, addr, size):
+	def readBytes(self, device, addr, size):
 		return self.i2c.readBytes(device, addr, size);
 
-	def writeBit(device, addr, offset, bit):
+	def writeBit(self, device, addr, offset, bit):
 		values = self.readBits(device, addr, 0, 7);
 		values[offset] = bit;
 		return self.writeByte(device, addr, int("".join(map(str, values)), 2));
 
-	def writeBits(device, addr, offset, bits):
+	def writeBits(self, device, addr, offset, bits):
 		values = self.readBits(device, addr, 0, 7);
 		values[offset:offset+len(bits)] = bits;
 		return self.writeByte(device, addr, int("".join(map(str, values)), 2));
 
-	def writeByte(device, addr, byte):
+	def writeByte(self, device, addr, byte):
 		return self.i2c.writeByte(device, addr, byte);
 
-	def writeBytes(device, addr, bytes):
+	def writeBytes(self, device, addr, bytes):
+		return self.i2c.writeBytes(device, addr, bytes);
 
 	def delay(self, ms):
 		sleep(ms/1000.0);
