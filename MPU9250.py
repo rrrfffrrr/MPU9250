@@ -1232,7 +1232,7 @@ class MPU9250:
 	# @see MPU9250_RA_PWR_MGMT_1
 	# @see MPU9250_PWR1_TEMP_DIS_BIT
 	def setTempSensorEnabled(self, enabled):
-		self.__i2cWrapper.writeBit(self.__devAddr, MPU9250_RA_PWR_MGMT_1, MPU9250_PWR1_TEMP_DIS_BIT, !enabled);
+		self.__i2cWrapper.writeBit(self.__devAddr, MPU9250_RA_PWR_MGMT_1, MPU9250_PWR1_TEMP_DIS_BIT, not enabled);
 	# Get clock source setting.
 	# @return Current clock source setting
 	# @see MPU9250_RA_PWR_MGMT_1
