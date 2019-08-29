@@ -940,9 +940,9 @@ class MPU9250:
 		self.__i2cWrapper.writeByte(MPU9150_RA_MAG_ADDRESS, 0x0A, 0x01); #enable the magnetometer
 		self.__i2cWrapper.delay(10);
 		mag = self.__i2cWrapper.readBytes(MPU9150_RA_MAG_ADDRESS, MPU9150_RA_MAG_XOUT_L, 6);
-		accgyr.append((mag[1] << 8) | mag[0]);
-		accgyr.append((mag[3] << 8) | mag[2]);
-		accgyr.append((mag[5] << 8) | mag[4]);
+		accgyr.append(int.from_bytes(mag[0:2], 'big', signed = True));
+		accgyr.append(int.from_bytes(mag[2:4], 'big', signed = True));
+		accgyr.append(int.from_bytes(mag[4:6], 'big', signed = True));
 		return accgyr;
 
 	# Get raw 6-axis motion sensor readings (accel/gyro).
@@ -954,12 +954,12 @@ class MPU9250:
 	def getMotion6(self):
 		baccgyr = self.__i2cWrapper.readBytes(self.__devAddr, MPU9250_RA_ACCEL_XOUT_H, 14);
 		accgyr = [];
-		accgyr.append((baccgyr[0] << 8) | baccgyr[1]);
-		accgyr.append((baccgyr[2] << 8) | baccgyr[3]);
-		accgyr.append((baccgyr[4] << 8) | baccgyr[5]);
-		accgyr.append((baccgyr[8] << 8) | baccgyr[9]);
-		accgyr.append((baccgyr[10] << 8) | baccgyr[11]);
-		accgyr.append((baccgyr[12] << 8) | baccgyr[13]);
+		accgyr.append(int.from_bytes(baccgyr[0:2], 'big', signed = True));
+		accgyr.append(int.from_bytes(baccgyr[2:4], 'big', signed = True));
+		accgyr.append(int.from_bytes(baccgyr[4:6], 'big', signed = True));
+		accgyr.append(int.from_bytes(baccgyr[6:8], 'big', signed = True));
+		accgyr.append(int.from_bytes(baccgyr[8:10], 'big', signed = True));
+		accgyr.append(int.from_bytes(baccgyr[10:12], 'big', signed = True));
 		return accgyr;
 
 	# Get 3-axis accelerometer readings.
@@ -998,9 +998,9 @@ class MPU9250:
 	def getAcceleration(self):
 		bacc = self.__i2cWrapper.readBytes(self.__devAddr, MPU9250_RA_ACCEL_XOUT_H, 6);
 		acc = [];
-		acc.append((bacc[0] << 8) | bacc[1]);
-		acc.append((bacc[2] << 8) | bacc[3]);
-		acc.append((bacc[4] << 8) | bacc[5]);
+		acc.append(int.from_bytes(bacc[0:2], 'big', signed = True));
+		acc.append(int.from_bytes(bacc[2:4], 'big', signed = True));
+		acc.append(int.from_bytes(bacc[4:6], 'big', signed = True));
 		return acc;
 
 	# Get X-axis accelerometer reading.
@@ -1009,7 +1009,7 @@ class MPU9250:
 	# @see MPU9250_RA_ACCEL_XOUT_H
 	def getAccelerationX(self):
 		xacc = self.__i2cWrapper.readBytes(self.__devAddr, MPU9250_RA_ACCEL_XOUT_H, 2);
-		return (xacc[0] << 8) | xacc[1];
+		return int.from_bytes(xacc[0:2], 'big', signed = True);
 
 	# Get Y-axis accelerometer reading.
 	# @return Y-axis acceleration measurement in 16-bit 2's complement format
@@ -1017,7 +1017,7 @@ class MPU9250:
 	# @see MPU9250_RA_ACCEL_YOUT_H
 	def getAccelerationY(self):
 		yacc = self.__i2cWrapper.readBytes(self.__devAddr, MPU9250_RA_ACCEL_YOUT_H, 2);
-		return (yacc[0] << 8) | yacc[1];
+		return int.from_bytes(yacc[0:2], 'big', signed = True);
 
 	# Get Z-axis accelerometer reading.
 	# @return Z-axis acceleration measurement in 16-bit 2's complement format
@@ -1025,7 +1025,7 @@ class MPU9250:
 	# @see MPU9250_RA_ACCEL_ZOUT_H
 	def getAccelerationZ(self):
 		zacc = self.__i2cWrapper.readBytes(self.__devAddr, MPU9250_RA_ACCEL_ZOUT_H, 2);
-		return (zacc[0] << 8) | zacc[1];
+		return int.from_bytes(zacc[0:2], 'big', signed = True);
 
 	## TEMP_OUT_* registers
 	# Get current internal temperature.
@@ -1033,7 +1033,7 @@ class MPU9250:
 	# @see MPU9250_RA_TEMP_OUT_H
 	def getTemperature(self):
 		tmp = self.__i2cWrapper.readBytes(self.__devAddr, MPU9250_RA_TEMP_OUT_H, 2);
-		return (tmp[0] << 8) | tmp[1];
+		return int.from_bytes(tmp[0:2], 'big', signed = True);
 
 	## GYRO_*OUT_* registers
 	# Get 3-axis gyroscope readings.
@@ -1071,9 +1071,9 @@ class MPU9250:
 	def getRotation(self):
 		brtt = self.__i2cWrapper.readBytes(self.__devAddr, MPU9250_RA_GYRO_XOUT_H, 6);
 		rtt = [];
-		rtt.append((rtt[0] << 8) | rtt[1]);
-		rtt.append((rtt[2] << 8) | rtt[3]);
-		rtt.append((rtt[4] << 8) | rtt[5]);
+		rtt.append(int.from_bytes(rtt[0:2], 'big', signed = True));
+		rtt.append(int.from_bytes(rtt[2:4], 'big', signed = True));
+		rtt.append(int.from_bytes(rtt[4:6], 'big', signed = True));
 		return rtt;
 
 	# Get X-axis gyroscope reading.
@@ -1082,7 +1082,7 @@ class MPU9250:
 	# @see MPU9250_RA_GYRO_XOUT_H
 	def getRotationX(self):
 		rtt = self.__i2cWrapper.readBytes(self.__devAddr, MPU9250_RA_GYRO_XOUT_H, 2);
-		return (rtt[0] << 8) | rtt[1];
+		return int.from_bytes(rtt[0:2], 'big', signed = True);
 
 	# Get Y-axis gyroscope reading.
 	# @return Y-axis rotation measurement in 16-bit 2's complement format
@@ -1090,7 +1090,7 @@ class MPU9250:
 	# @see MPU9250_RA_GYRO_YOUT_H
 	def getRotationY(self):
 		rtt = self.__i2cWrapper.readBytes(self.__devAddr, MPU9250_RA_GYRO_YOUT_H, 2);
-		return (rtt[0] << 8) | rtt[1];
+		return int.from_bytes(rtt[0:2], 'big', signed = True);
 
 	# Get Z-axis gyroscope reading.
 	# @return Z-axis rotation measurement in 16-bit 2's complement format
@@ -1098,7 +1098,7 @@ class MPU9250:
 	# @see MPU9250_RA_GYRO_ZOUT_H
 	def getRotationZ(self):
 		rtt = self.__i2cWrapper.readBytes(self.__devAddr, MPU9250_RA_GYRO_ZOUT_H, 2);
-		return (rtt[0] << 8) | rtt[1];
+		return int.from_bytes(rtt[0:2], 'big', signed = True);
 
 	## EXT_SENS_DATA_* registers
 	def getExternalSensorByte(self, position):
