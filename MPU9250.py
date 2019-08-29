@@ -913,18 +913,109 @@ class MPU9250:
 		pass
 
 	## ACCEL_*OUT_* registers
-	def getMotion9(self, ax, ay, az, gx, gy, gz, mx, my, mz):
-		pass
-	def getMotion6(self, ax, ay, az, gx, gy, gz):
-		pass
-	def getAcceleration(self, x, y, z):
-		pass
+	# Get raw 9-axis motion sensor readings (accel/gyro/compass).
+	# FUNCTION NOT FULLY IMPLEMENTED YET.
+	# @see getMotion6()
+	# @see getAcceleration()
+	# @see getRotation()
+	# @see MPU9250_RA_ACCEL_XOUT_H
+	# @return [ax, ay, az, gx, gy, gz, mx, my, mz]
+	def getMotion9(self):
+		#get accel and gyro
+		accgyr = getMotion6();
+
+		#read mag
+		self.__i2cWrapper.writeByte(self.__devAddr, MPU9250_RA_INT_PIN_CFG, 0x02); #set i2c bypass enable pin to True to access magnetometer
+		delay(10);
+		self.__i2cWrapper.writeByte(MPU9150_RA_MAG_ADDRESS, 0x0A, 0x01); #enable the magnetometer
+		delay(10);
+		mag = self.__i2cWrapper.readBytes(MPU9150_RA_MAG_ADDRESS, MPU9150_RA_MAG_XOUT_L, 6);
+		accgyr[6] = (mag[1] << 8) | mag[0];
+		accgyr[7] = (mag[3] << 8) | mag[2];
+		accgyr[8] = (mag[5] << 8) | mag[4];
+		return accgyr;
+
+	# Get raw 6-axis motion sensor readings (accel/gyro).
+	# Retrieves all currently available motion sensor values.
+	# @see getAcceleration()
+	# @see getRotation()
+	# @see MPU9250_RA_ACCEL_XOUT_H
+	# @return [ax, ay, az, gx, gy, gz]
+	def getMotion6(self):
+		baccgyr = self.__i2cWrapper.readBytes(self.__devAddr, MPU9250_RA_ACCEL_XOUT_H, 14);
+		accgyr = [];
+		accgyr[0] = (baccgyr[0] << 8) | baccgyr[1];
+		accgyr[1] = (baccgyr[2] << 8) | baccgyr[3];
+		accgyr[2] = (baccgyr[4] << 8) | baccgyr[5];
+		accgyr[3] = (baccgyr[8] << 8) | baccgyr[9];
+		accgyr[4] = (baccgyr[10] << 8) | baccgyr[11];
+		accgyr[5] = (baccgyr[12] << 8) | baccgyr[13];
+		return accgyr;
+
+	# Get 3-axis accelerometer readings.
+	# These registers store the most recent accelerometer measurements.
+	# Accelerometer measurements are written to these registers at the Sample Rate
+	# as defined in Register 25.
+	#
+	# The accelerometer measurement registers, along with the temperature
+	# measurement registers, gyroscope measurement registers, and external sensor
+	# data registers, are composed of two sets of registers: an internal register
+	# set and a user-facing read register set.
+	#
+	# The data within the accelerometer sensors' internal register set is always
+	# updated at the Sample Rate. Meanwhile, the user-facing read register set
+	# duplicates the internal register set's data values whenever the serial
+	# interface is idle. This guarantees that a burst read of sensor registers will
+	# read measurements from the same sampling instant. Note that if burst reads
+	# are not used, the user is responsible for ensuring a set of single byte reads
+	# correspond to a single sampling instant by checking the Data Ready interrupt.
+	#
+	# Each 16-bit accelerometer measurement has a full scale defined in ACCEL_FS
+	# (Register 28). For each full scale setting, the accelerometers' sensitivity
+	# per LSB in ACCEL_xOUT is shown in the table below:
+	#
+	# <pre>
+	# AFS_SEL | Full Scale Range | LSB Sensitivity
+	# --------+------------------+----------------
+	# 0       | +/- 2g           | 8192 LSB/mg
+	# 1       | +/- 4g           | 4096 LSB/mg
+	# 2       | +/- 8g           | 2048 LSB/mg
+	# 3       | +/- 16g          | 1024 LSB/mg
+	# </pre>
+	#
+	# @see MPU9250_RA_GYRO_XOUT_H
+	# @return [x, y, z]
+	def getAcceleration(self):
+		bacc = self.__i2cWrapper.readBytes(self.__devAddr, MPU9250_RA_ACCEL_XOUT_H, 6);
+		acc = [];
+		acc[0] = (bacc[0] << 8) | bacc[1];
+		acc[1] = (bacc[2] << 8) | bacc[3];
+		acc[2] = (bacc[4] << 8) | bacc[5];
+		return acc;
+
+	# Get X-axis accelerometer reading.
+	# @return X-axis acceleration measurement in 16-bit 2's complement format
+	# @see getMotion6()
+	# @see MPU9250_RA_ACCEL_XOUT_H
 	def getAccelerationX(self):
-		pass
+		xacc = self.__i2cWrapper.readBytes(self.__devAddr, MPU9250_RA_ACCEL_XOUT_H, 2);
+		return (xacc[0] << 8) | xacc[1];
+
+	# Get Y-axis accelerometer reading.
+	# @return Y-axis acceleration measurement in 16-bit 2's complement format
+	# @see getMotion6()
+	# @see MPU9250_RA_ACCEL_YOUT_H
 	def getAccelerationY(self):
-		pass
+		yacc = self.__i2cWrapper.readBytes(self.__devAddr, MPU9250_RA_ACCEL_YOUT_H, 2);
+		return (yacc[0] << 8) | yacc[1];
+
+	# Get Z-axis accelerometer reading.
+	# @return Z-axis acceleration measurement in 16-bit 2's complement format
+	# @see getMotion6()
+	# @see MPU9250_RA_ACCEL_ZOUT_H
 	def getAccelerationZ(self):
-		pass
+		zacc = self.__i2cWrapper.readBytes(self.__devAddr, MPU9250_RA_ACCEL_ZOUT_H, 2);
+		return (zacc[0] << 8) | zacc[1];
 
 	## TEMP_OUT_* registers
 	def getTemperature(self):
