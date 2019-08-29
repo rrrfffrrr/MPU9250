@@ -930,9 +930,9 @@ class MPU9250:
 		self.__i2cWrapper.writeByte(MPU9150_RA_MAG_ADDRESS, 0x0A, 0x01); #enable the magnetometer
 		delay(10);
 		mag = self.__i2cWrapper.readBytes(MPU9150_RA_MAG_ADDRESS, MPU9150_RA_MAG_XOUT_L, 6);
-		accgyr[6] = (mag[1] << 8) | mag[0];
-		accgyr[7] = (mag[3] << 8) | mag[2];
-		accgyr[8] = (mag[5] << 8) | mag[4];
+		accgyr.append((mag[1] << 8) | mag[0]);
+		accgyr.append((mag[3] << 8) | mag[2]);
+		accgyr.append((mag[5] << 8) | mag[4]);
 		return accgyr;
 
 	# Get raw 6-axis motion sensor readings (accel/gyro).
@@ -944,12 +944,12 @@ class MPU9250:
 	def getMotion6(self):
 		baccgyr = self.__i2cWrapper.readBytes(self.__devAddr, MPU9250_RA_ACCEL_XOUT_H, 14);
 		accgyr = [];
-		accgyr[0] = (baccgyr[0] << 8) | baccgyr[1];
-		accgyr[1] = (baccgyr[2] << 8) | baccgyr[3];
-		accgyr[2] = (baccgyr[4] << 8) | baccgyr[5];
-		accgyr[3] = (baccgyr[8] << 8) | baccgyr[9];
-		accgyr[4] = (baccgyr[10] << 8) | baccgyr[11];
-		accgyr[5] = (baccgyr[12] << 8) | baccgyr[13];
+		accgyr.append((baccgyr[0] << 8) | baccgyr[1]);
+		accgyr.append((baccgyr[2] << 8) | baccgyr[3]);
+		accgyr.append((baccgyr[4] << 8) | baccgyr[5]);
+		accgyr.append((baccgyr[8] << 8) | baccgyr[9]);
+		accgyr.append((baccgyr[10] << 8) | baccgyr[11]);
+		accgyr.append((baccgyr[12] << 8) | baccgyr[13]);
 		return accgyr;
 
 	# Get 3-axis accelerometer readings.
@@ -988,9 +988,9 @@ class MPU9250:
 	def getAcceleration(self):
 		bacc = self.__i2cWrapper.readBytes(self.__devAddr, MPU9250_RA_ACCEL_XOUT_H, 6);
 		acc = [];
-		acc[0] = (bacc[0] << 8) | bacc[1];
-		acc[1] = (bacc[2] << 8) | bacc[3];
-		acc[2] = (bacc[4] << 8) | bacc[5];
+		acc.append((bacc[0] << 8) | bacc[1]);
+		acc.append((bacc[2] << 8) | bacc[3]);
+		acc.append((bacc[4] << 8) | bacc[5]);
 		return acc;
 
 	# Get X-axis accelerometer reading.
