@@ -1019,22 +1019,106 @@ class MPU9250:
 		pass
 
 	## PWR_MGMT_1 register
+	# Trigger a full device reset.
+	# A small delay of ~50ms may be desirable after triggering a reset.
+	# @see MPU9250_RA_PWR_MGMT_1
+	# @see MPU9250_PWR1_DEVICE_RESET_BIT
 	def reset(self):
 		pass
+	# Get sleep mode status.
+	# Setting the SLEEP bit in the register puts the device into very low power
+	# sleep mode. In this mode, only the serial interface and internal registers
+	# remain active, allowing for a very low standby current. Clearing this bit
+	# puts the device back into normal mode. To save power, the individual standby
+	# selections for each of the gyros should be used if any gyro axis is not used
+	# by the application.
+	# @return Current sleep mode enabled status
+	# @see MPU9250_RA_PWR_MGMT_1
+	# @see MPU9250_PWR1_SLEEP_BIT
 	def getSleepEnabled(self):
 		pass
+	# Set sleep mode status.
+	# @param enabled New sleep mode enabled status
+	# @see getSleepEnabled()
+	# @see MPU9250_RA_PWR_MGMT_1
+	# @see MPU9250_PWR1_SLEEP_BIT
 	def setSleepEnabled(self, enabled):
 		pass
+	# Get wake cycle enabled status.
+	# When this bit is set to 1 and SLEEP is disabled, the MPU-60X0 will cycle
+	# between sleep mode and waking up to take a single sample of data from active
+	# sensors at a rate determined by LP_WAKE_CTRL (register 108).
+	# @return Current sleep mode enabled status
+	# @see MPU9250_RA_PWR_MGMT_1
+	# @see MPU9250_PWR1_CYCLE_BIT
 	def getWakeCycleEnabled(self):
 		pass
+	# Set wake cycle enabled status.
+	# @param enabled New sleep mode enabled status
+	# @see getWakeCycleEnabled()
+	# @see MPU9250_RA_PWR_MGMT_1
+	# @see MPU9250_PWR1_CYCLE_BIT
 	def setWakeCycleEnabled(self, enabled):
 		pass
+	# Get temperature sensor enabled status.
+	# Control the usage of the internal temperature sensor.
+	#
+	# Note: this register stores the *disabled* value, but for consistency with the
+	# rest of the code, the function is named and used with standard true/false
+	# values to indicate whether the sensor is enabled or disabled, respectively.
+	#
+	# @return Current temperature sensor enabled status
+	# @see MPU9250_RA_PWR_MGMT_1
+	# @see MPU9250_PWR1_TEMP_DIS_BIT
 	def getTempSensorEnabled(self):
 		pass
+	# Set temperature sensor enabled status.
+	# Note: this register stores the *disabled* value, but for consistency with the
+	# rest of the code, the function is named and used with standard true/false
+	# values to indicate whether the sensor is enabled or disabled, respectively.
+	#
+	# @param enabled New temperature sensor enabled status
+	# @see getTempSensorEnabled()
+	# @see MPU9250_RA_PWR_MGMT_1
+	# @see MPU9250_PWR1_TEMP_DIS_BIT
 	def setTempSensorEnabled(self, enabled):
 		pass
+	# Get clock source setting.
+	# @return Current clock source setting
+	# @see MPU9250_RA_PWR_MGMT_1
+	# @see MPU9250_PWR1_CLKSEL_BIT
+	# @see MPU9250_PWR1_CLKSEL_LENGTH
 	def getClockSource(self):
 		pass
+	# Set clock source setting.
+	# An internal 8MHz oscillator, gyroscope based clock, or external sources can
+	# be selected as the MPU-60X0 clock source. When the internal 8 MHz oscillator
+	# or an external source is chosen as the clock source, the MPU-60X0 can operate
+	# in low power modes with the gyroscopes disabled.
+	#
+	# Upon power up, the MPU-60X0 clock source defaults to the internal oscillator.
+	# However, it is highly recommended that the device be configured to use one of
+	# the gyroscopes (or an external clock source) as the clock reference for
+	# improved stability. The clock source can be selected according to the following table:
+	#
+	# <pre>
+	# CLK_SEL | Clock Source
+	# --------+--------------------------------------
+	# 0       | Internal oscillator
+	# 1       | PLL with X Gyro reference
+	# 2       | PLL with Y Gyro reference
+	# 3       | PLL with Z Gyro reference
+	# 4       | PLL with external 32.768kHz reference
+	# 5       | PLL with external 19.2MHz reference
+	# 6       | Reserved
+	# 7       | Stops the clock and keeps the timing generator in reset
+	# </pre>
+	#
+	# @param source New clock source setting
+	# @see getClockSource()
+	# @see MPU9250_RA_PWR_MGMT_1
+	# @see MPU9250_PWR1_CLKSEL_BIT
+	# @see MPU9250_PWR1_CLKSEL_LENGTH
 	def setClockSource(self, source):
 		pass
 
