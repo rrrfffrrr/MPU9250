@@ -390,7 +390,7 @@ class MPU9250:
 		self.setClockSource(MPU9250_CLOCK_PLL_XGYRO);
 		self.setFullScaleGyroRange(MPU9250_GYRO_FS_250);
 		self.setFullScaleAccelRange(MPU9250_ACCEL_FS_2);
-		self.setSleepEnabled(False);
+		self.setSleepEnabled(0);
 
 
 	## Verify the I2C connection.
