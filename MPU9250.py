@@ -957,9 +957,9 @@ class MPU9250:
 		accgyr.append(int.from_bytes(baccgyr[0:2], 'big', signed = True));
 		accgyr.append(int.from_bytes(baccgyr[2:4], 'big', signed = True));
 		accgyr.append(int.from_bytes(baccgyr[4:6], 'big', signed = True));
-		accgyr.append(int.from_bytes(baccgyr[6:8], 'big', signed = True));
 		accgyr.append(int.from_bytes(baccgyr[8:10], 'big', signed = True));
 		accgyr.append(int.from_bytes(baccgyr[10:12], 'big', signed = True));
+		accgyr.append(int.from_bytes(baccgyr[12:14], 'big', signed = True));
 		return accgyr;
 
 	# Get 3-axis accelerometer readings.
